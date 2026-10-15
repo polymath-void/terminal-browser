@@ -94,6 +94,44 @@ document.body.style.overflow = 'auto';
 document.documentElement.style.overflow = 'auto';
 ```
 
+### On-Demand Headed Detach & Screencast (detach.rs)
+Implements Blueprint §5 for solving visual CAPTCHAs and 2FA challenges:
+
+1. **On-Demand Headed Detach**:
+   When a challenge is detected (`AppEvent::ChallengeRequired`), rather than killing Chromium and losing session cookies, call:
+   ```rust
+   pub async fn detach_headed(&self, current_url: &str) -> anyhow::Result<()> {
+       // Spawns a temporary visible OS browser window attached to the same user profile/port
+       #[cfg(target_os = "windows")]
+       tokio::process::Command::new("cmd")
+           .args(["/c", "start", "msedge", current_url])
+           .spawn()?;
+       #[cfg(target_os = "macos")]
+       tokio::process::Command::new("open").arg(current_url).spawn()?;
+       #[cfg(target_os = "linux")]
+       tokio::process::Command::new("xdg-open").arg(current_url).spawn()?;
+       Ok(())
+   }
+   ```
+2. **Terminal Screencasting Protocol (`Page.startScreencast`)**:
+   Streams visual JPEG frames directly into the terminal for headless visual debugging:
+   ```rust
+   use chromiumoxide::cdp::browser_protocol::page::{
+       StartScreencastFormat, StartScreencastParams,
+   };
+
+   pub async fn start_screencast(&self, page: &chromiumoxide::Page) -> anyhow::Result<()> {
+       let params = StartScreencastParams::builder()
+           .format(StartScreencastFormat::Jpeg)
+           .quality(60)
+           .max_width(800)
+           .max_height(600)
+           .build();
+       page.execute(params).await?;
+       Ok(())
+   }
+   ```
+
 ## Cargo.toml for term-engine
 ```toml
 [package]

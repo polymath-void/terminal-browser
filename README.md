@@ -23,16 +23,16 @@ Unlike legacy text-only browsers (Lynx, w3m) or downsampled pixel streamers (Bro
 | [PLATFORM_ARCHITECTURE_AND_IMPLEMENTATION_BLUEPRINTS.md](PLATFORM_ARCHITECTURE_AND_IMPLEMENTATION_BLUEPRINTS.md) | Cross-platform stack analysis, Cargo workspace, async event loop, IPC, SQLite schema |
 | [AGENT_TEAM_ARCHITECTURE.md](AGENT_TEAM_ARCHITECTURE.md) | Full 9-agent swarm team design with crate ownership, communication protocol, and phased roadmap |
 
-## Development Agent Team (9 Specialist Agents)
+## Development Agent Team (10 Specialist Roles)
 
-| Agent ID | Role | Crate Ownership | Skill |
+| Agent ID | Role | Crate Ownership | Dedicated Skill |
 | :--- | :--- | :--- | :--- |
 | **ARCH-0** | Swarm Orchestrator | `Cargo.toml`, `src/main.rs`, CI | [tb-arch0-orchestrator](.agents/skills/tb-arch0-orchestrator/SKILL.md) |
 | **CORE-1** | Domain Model Architect | `crates/term-core` | [tb-core1-domain-model](.agents/skills/tb-core1-domain-model/SKILL.md) |
-| **IPC-2** | Wire Protocol Engineer | `crates/term-ipc` | *(see AGENT_TEAM_ARCHITECTURE.md §2)* |
+| **IPC-2** | Wire Protocol Engineer | `crates/term-ipc` | [tb-ipc2-wire-protocol](.agents/skills/tb-ipc2-wire-protocol/SKILL.md) |
 | **ENG-3** | Browser Engine Specialist | `crates/term-engine` | [tb-eng3-browser-engine](.agents/skills/tb-eng3-browser-engine/SKILL.md) |
 | **TUI-4** | Terminal UI Engineer | `crates/term-tui` | [tb-tui4-terminal-ui](.agents/skills/tb-tui4-terminal-ui/SKILL.md) |
-| **FORM-5** | Form & Event Dispatch Engineer | `crates/term-tui::forms` | *(module of TUI-4)* |
+| **FORM-5** | Form & Event Dispatch Engineer | `crates/term-tui::forms` | [tb-form5-event-dispatcher](.agents/skills/tb-form5-event-dispatcher/SKILL.md) |
 | **STORE-6** | Storage & Vault Engineer | `crates/term-storage` | [tb-store6-storage-vault](.agents/skills/tb-store6-storage-vault/SKILL.md) |
 | **MCP-7** | Agent Protocol Engineer | `crates/term-mcp` | [tb-mcp7-agent-protocol](.agents/skills/tb-mcp7-agent-protocol/SKILL.md) |
 | **SEC-8** | Security & Safety Engineer | `term-mcp::security`, `term-engine::sanitizer` | [tb-sec8-safety-engineer](.agents/skills/tb-sec8-safety-engineer/SKILL.md) |

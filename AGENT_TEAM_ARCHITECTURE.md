@@ -110,6 +110,7 @@ flowchart TD
 | :--- | :--- |
 | **Role** | Cross-Platform IPC Transport & Process Supervisor |
 | **Crate Ownership** | `crates/term-ipc/` |
+| **Dedicated Skill** | [tb-ipc2-wire-protocol](.agents/skills/tb-ipc2-wire-protocol/SKILL.md) |
 | **Blueprint Source** | Missing Blueprint §1, Platform Blueprint §4 (IPC Protocol) |
 | **Tools** | File write, run command |
 
@@ -198,6 +199,7 @@ flowchart TD
 | :--- | :--- |
 | **Role** | Terminal Input Widgets & Synthetic CDP Event Dispatcher |
 | **Crate Ownership** | `crates/term-tui::forms` (module within TUI-4's crate) |
+| **Dedicated Skill** | [tb-form5-event-dispatcher](.agents/skills/tb-form5-event-dispatcher/SKILL.md) |
 | **Blueprint Source** | Missing Blueprint §3 (Form & Synthetic Event Dispatch) |
 | **Tools** | File write, run command |
 

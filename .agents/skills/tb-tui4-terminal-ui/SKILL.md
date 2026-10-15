@@ -133,6 +133,57 @@ pub async fn run_event_loop(
 }
 ```
 
+## Multi-Protocol Graphics Subsystem (graphics.rs)
+
+Renders inline web images, charts, and screencast frames according to terminal capability:
+
+```rust
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum GraphicsProtocol {
+    Kitty,   // Kitty graphics protocol (fastest, 24-bit direct bitmap)
+    Sixel,   // Sixel graphics protocol (WezTerm, Foot, XTerm, Mintty)
+    Braille, // Unicode 2x4 braille dot pattern fallback (any UTF-8 terminal)
+    Ascii,   // Text badge fallback [IMG: Alt text]
+}
+
+impl GraphicsProtocol {
+    pub fn detect() -> Self {
+        if std::env::var("KITTY_WINDOW_ID").is_ok() {
+            return GraphicsProtocol::Kitty;
+        }
+        if let Ok(term) = std::env::var("TERM") {
+            if term.contains("sixel") || term.contains("foot") || term.contains("wezterm") {
+                return GraphicsProtocol::Sixel;
+            }
+        }
+        GraphicsProtocol::Braille
+    }
+
+    pub fn render_image_cell(
+        &self,
+        image_bytes: &[u8],
+        target_area: ratatui::layout::Rect,
+        buf: &mut ratatui::buffer::Buffer,
+    ) -> anyhow::Result<()> {
+        match self {
+            GraphicsProtocol::Kitty => {
+                // Emits Kitty graphics escape code: \x1b_G...
+            }
+            GraphicsProtocol::Sixel => {
+                // Converts image RGB to Sixel escape stream: \x1bPq...
+            }
+            GraphicsProtocol::Braille => {
+                // Downsamples image to 2x4 dot matrix per character cell
+            }
+            GraphicsProtocol::Ascii => {
+                // Writes [IMG: 800x600]
+            }
+        }
+        Ok(())
+    }
+}
+```
+
 ## Cargo.toml for term-tui
 ```toml
 [package]
