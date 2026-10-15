@@ -15,14 +15,32 @@ Unlike legacy text-only browsers (Lynx, w3m) or downsampled pixel streamers (Bro
 
 ## Architecture & Engineering Blueprints
 
-- [ARCHITECTURE.md](ARCHITECTURE.md) / [terminal_browser_architecture.md](terminal_browser_architecture.md): Core decoupled system architecture, open-source CLI browser analysis, and UX design.
-- [FAST_BROWSING_AND_IDENTITY.md](FAST_BROWSING_AND_IDENTITY.md): Fast browsing engine, transparent agent identity profile, anti-CAPTCHA strategies, and CDP resource filtering benchmarks.
-- [missing-blueprints.md](missing-blueprints.md): Catalog of the 6 critical missing subsystems required to transition from concept to complete implementation.
-- [PLATFORM_ARCHITECTURE_AND_IMPLEMENTATION_BLUEPRINTS.md](PLATFORM_ARCHITECTURE_AND_IMPLEMENTATION_BLUEPRINTS.md): Comprehensive evaluation of cross-platform stacks, Cargo workspace layout, unified async actor event loop, IPC wire protocol, virtual viewport rendering, and SQLite vault schema.
+| Blueprint | Description |
+| :--- | :--- |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Core system architecture, open-source browser gap analysis, UX design |
+| [FAST_BROWSING_AND_IDENTITY.md](FAST_BROWSING_AND_IDENTITY.md) | Fast browsing engine, transparent agent identity, anti-CAPTCHA, CDP resource filtering |
+| [missing-blueprints.md](missing-blueprints.md) | Catalog of 6 critical missing engineering subsystems |
+| [PLATFORM_ARCHITECTURE_AND_IMPLEMENTATION_BLUEPRINTS.md](PLATFORM_ARCHITECTURE_AND_IMPLEMENTATION_BLUEPRINTS.md) | Cross-platform stack analysis, Cargo workspace, async event loop, IPC, SQLite schema |
+| [AGENT_TEAM_ARCHITECTURE.md](AGENT_TEAM_ARCHITECTURE.md) | Full 9-agent swarm team design with crate ownership, communication protocol, and phased roadmap |
+
+## Development Agent Team (9 Specialist Agents)
+
+| Agent ID | Role | Crate Ownership | Skill |
+| :--- | :--- | :--- | :--- |
+| **ARCH-0** | Swarm Orchestrator | `Cargo.toml`, `src/main.rs`, CI | [tb-arch0-orchestrator](.agents/skills/tb-arch0-orchestrator/SKILL.md) |
+| **CORE-1** | Domain Model Architect | `crates/term-core` | [tb-core1-domain-model](.agents/skills/tb-core1-domain-model/SKILL.md) |
+| **IPC-2** | Wire Protocol Engineer | `crates/term-ipc` | *(see AGENT_TEAM_ARCHITECTURE.md §2)* |
+| **ENG-3** | Browser Engine Specialist | `crates/term-engine` | [tb-eng3-browser-engine](.agents/skills/tb-eng3-browser-engine/SKILL.md) |
+| **TUI-4** | Terminal UI Engineer | `crates/term-tui` | [tb-tui4-terminal-ui](.agents/skills/tb-tui4-terminal-ui/SKILL.md) |
+| **FORM-5** | Form & Event Dispatch Engineer | `crates/term-tui::forms` | *(module of TUI-4)* |
+| **STORE-6** | Storage & Vault Engineer | `crates/term-storage` | [tb-store6-storage-vault](.agents/skills/tb-store6-storage-vault/SKILL.md) |
+| **MCP-7** | Agent Protocol Engineer | `crates/term-mcp` | [tb-mcp7-agent-protocol](.agents/skills/tb-mcp7-agent-protocol/SKILL.md) |
+| **SEC-8** | Security & Safety Engineer | `term-mcp::security`, `term-engine::sanitizer` | [tb-sec8-safety-engineer](.agents/skills/tb-sec8-safety-engineer/SKILL.md) |
+| **QA-9** | Test & Integration Engineer | `tests/`, `.github/workflows/` | [tb-qa9-test-engineer](.agents/skills/tb-qa9-test-engineer/SKILL.md) |
 
 ## Integrated Agent Skills & Scripts
 
-- [Semantic Web Browsing Skill](.agents/skills/semantic-web-browsing/SKILL.md): Complete agent runbook for token-efficient AXTree extraction, noise filtering, and MCP browser control.
+- [Semantic Web Browsing Skill](.agents/skills/semantic-web-browsing/SKILL.md): Agent runbook for token-efficient AXTree extraction, noise filtering, and MCP browser control.
   - [MCP Browser Schema](.agents/skills/semantic-web-browsing/references/mcp_browser_schema.json)
   - [AXTree Snapshot Example](.agents/skills/semantic-web-browsing/examples/axtree_example.md)
   - [AXTree Extraction Script](.agents/skills/semantic-web-browsing/scripts/extract_axtree.py)
