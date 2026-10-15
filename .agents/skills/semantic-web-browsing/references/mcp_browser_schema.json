@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MCP Browser Server Protocol Tools",
+  "tools": [
+    {
+      "name": "browser_navigate",
+      "description": "Navigate to a URL and wait for page load and network stability.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "url": { "type": "string", "description": "The target URL to load." },
+          "wait_idle": { "type": "boolean", "default": true, "description": "Wait until network is idle before resolving." },
+          "timeout_ms": { "type": "integer", "default": 30000, "description": "Navigation timeout in milliseconds." }
+        },
+        "required": ["url"]
+      }
+    },
+    {
+      "name": "browser_snapshot",
+      "description": "Return a pruned, token-efficient semantic accessibility snapshot of the current viewport.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": ["semantic", "markdown", "raw_text"],
+            "default": "semantic",
+            "description": "The representation format. 'semantic' includes [Ref IDs] for interactive actions."
+          },
+          "include_hidden": { "type": "boolean", "default": false }
+        }
+      }
+    },
+    {
+      "name": "browser_act",
+      "description": "Perform an action on a specific element identified by its numeric Ref ID.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "ref_id": { "type": "integer", "description": "Sequential reference handle from browser_snapshot." },
+          "action": {
+            "type": "string",
+            "enum": ["click", "type", "select", "hover", "scroll", "press_key"],
+            "description": "The action to dispatch."
+          },
+          "payload": {
+            "type": "object",
+            "description": "Action specific payload (e.g. text to type, key to press, select value).",
+            "properties": {
+              "text": { "type": "string" },
+              "key": { "type": "string" },
+              "value": { "type": "string" },
+              "submit": { "type": "boolean", "default": false },
+              "direction": { "type": "string", "enum": ["up", "down", "left", "right"] }
+            }
+          }
+        },
+        "required": ["ref_id", "action"]
+      }
+    },
+    {
+      "name": "browser_extract",
+      "description": "Extract content in clean, structured Markdown or JSON without interactive noise.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "target": {
+            "type": "string",
+            "enum": ["article", "tables", "links", "metadata"],
+            "default": "article"
+          }
+        }
+      }
+    },
+    {
+      "name": "browser_session",
+      "description": "Manage authenticated session state, cookies, and local storage vaults.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "action": { "type": "string", "enum": ["export", "import", "clear"] },
+          "path": { "type": "string", "description": "File path to save or load session state." }
+        },
+        "required": ["action"]
+      }
+    }
+  ]
+}
