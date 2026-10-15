@@ -1,0 +1,50 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/term-core",
+    "crates/term-ipc",
+    "crates/term-engine",
+    "crates/term-tui",
+    "crates/term-storage",
+    "crates/term-mcp",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+authors = ["Polymath & Antigravity Swarm Intelligence"]
+license = "MIT OR Apache-2.0"
+
+[workspace.dependencies]
+tokio = { version = "1.38", features = ["full"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+anyhow = "1.0"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+url = "2.5"
+
+[package]
+name = "terminal-browser"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+term-core = { path = "crates/term-core" }
+term-ipc = { path = "crates/term-ipc" }
+term-engine = { path = "crates/term-engine" }
+term-tui = { path = "crates/term-tui" }
+term-storage = { path = "crates/term-storage" }
+term-mcp = { path = "crates/term-mcp" }
+tokio.workspace = true
+anyhow.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+clap = { version = "4.5", features = ["derive"] }
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+strip = true

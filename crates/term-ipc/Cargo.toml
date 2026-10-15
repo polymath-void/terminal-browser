@@ -1,0 +1,15 @@
+[package]
+name = "term-ipc"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+term-core = { path = "../term-core" }
+tokio.workspace = true
+tokio-util = { version = "0.7", features = ["codec"] }
+bytes = "1.6"
+serde.workspace = true
+serde_json.workspace = true
+anyhow.workspace = true
+tracing.workspace = true

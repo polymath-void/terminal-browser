@@ -1,0 +1,15 @@
+[package]
+name = "term-tui"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+
+[dependencies]
+term-core = { path = "../term-core" }
+term-engine = { path = "../term-engine" }
+ratatui = "0.29"
+crossterm = "0.28"
+tokio.workspace = true
+anyhow.workspace = true
+tracing.workspace = true
+unicode-width = "0.2"
