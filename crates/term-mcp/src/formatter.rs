@@ -46,3 +46,107 @@ fn format_node(buf: &mut String, node: &AXNode, depth: usize) {
         format_node(buf, child, depth + 1);
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use term_core::{SnapshotMode, SnapshotSource};
+
+    #[test]
+    fn test_format_snapshot_markdown_token_efficiency_and_ref_ids() {
+        let snapshot = PageSnapshot {
+            url: "https://example.com/login".to_string(),
+            title: Some("Login Page".to_string()),
+            http_status: 200,
+            mode: SnapshotMode::Semantic,
+            scroll_percent: 0.25,
+            source: SnapshotSource::DirectNegotiation,
+            nodes: vec![
+                AXNode {
+                    ref_id: None,
+                    backend_node_id: Some(1),
+                    role: "banner".to_string(),
+                    name: Some("Header".to_string()),
+                    value: None,
+                    placeholder: None,
+                    checked: None,
+                    expanded: None,
+                    level: None,
+                    href: None,
+                    children: vec![
+                        AXNode {
+                            ref_id: Some(1),
+                            backend_node_id: Some(2),
+                            role: "link".to_string(),
+                            name: Some("Home".to_string()),
+                            value: None,
+                            placeholder: None,
+                            checked: None,
+                            expanded: None,
+                            level: None,
+                            href: Some("https://example.com".to_string()),
+                            children: vec![],
+                        },
+                    ],
+                },
+                AXNode {
+                    ref_id: None,
+                    backend_node_id: Some(3),
+                    role: "main".to_string(),
+                    name: None,
+                    value: None,
+                    placeholder: None,
+                    checked: None,
+                    expanded: None,
+                    level: None,
+                    href: None,
+                    children: vec![
+                        AXNode {
+                            ref_id: Some(2),
+                            backend_node_id: Some(4),
+                            role: "textbox".to_string(),
+                            name: Some("Username".to_string()),
+                            value: Some("alice".to_string()),
+                            placeholder: Some("Enter username".to_string()),
+                            checked: None,
+                            expanded: None,
+                            level: None,
+                            href: None,
+                            children: vec![],
+                        },
+                        AXNode {
+                            ref_id: Some(3),
+                            backend_node_id: Some(5),
+                            role: "button".to_string(),
+                            name: Some("Sign In".to_string()),
+                            value: None,
+                            placeholder: None,
+                            checked: None,
+                            expanded: None,
+                            level: None,
+                            href: None,
+                            children: vec![],
+                        },
+                    ],
+                },
+            ],
+        };
+
+        let markdown = format_snapshot_markdown(&snapshot);
+        
+        // Check header with URL, HTTP status and Scroll percent
+        assert!(markdown.starts_with("<!-- URL: https://example.com/login | Status: 200 | Scroll: 25% -->\n"));
+
+        // Check indentation and structure
+        assert!(markdown.contains("[banner \"Header\"]\n"));
+        assert!(markdown.contains("  [link #1 \"Home\" href=\"https://example.com\"]\n"));
+        assert!(markdown.contains("[main]\n"));
+        assert!(markdown.contains("  [textbox #2 \"Username\" value=\"alice\"]\n"));
+        assert!(markdown.contains("  [button #3 \"Sign In\"]\n"));
+
+        // Verify token compactness: output is concise with no HTML or JSON noise
+        assert!(!markdown.contains("<div>"));
+        assert!(!markdown.contains("\"backend_node_id\""));
+        assert!(markdown.lines().count() <= 6);
+    }
+}

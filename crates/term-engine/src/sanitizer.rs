@@ -10,7 +10,7 @@ const INJECTION_PATTERNS: &[&str] = &[
     r"(?i)disregard (your|the) (previous|above|prior)",
 ];
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct SanitizedText {
     pub content: String,
     pub is_suspicious: bool,

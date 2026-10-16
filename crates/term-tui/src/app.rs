@@ -8,6 +8,7 @@ use ratatui::{
 };
 use term_core::PageSnapshot;
 
+#[derive(Debug, Clone, PartialEq)]
 pub struct TuiApp {
     pub viewport: VirtualViewport,
     pub current_url: String,
@@ -15,6 +16,12 @@ pub struct TuiApp {
     pub status_message: String,
     pub hint_mode: bool,
     pub memory_usage_mb: u64,
+}
+
+impl Default for TuiApp {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl TuiApp {

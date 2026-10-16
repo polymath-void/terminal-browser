@@ -79,3 +79,35 @@ fn test_security_gate_critical_action() {
     let can_exec = SecurityGate::can_execute(&critical_action, Some(&pay_button));
     assert!(can_exec.is_err());
 }
+
+#[test]
+fn test_snapshot_markdown_formatting() {
+    use term_core::{SnapshotMode, SnapshotSource};
+
+    let snapshot = term_core::PageSnapshot {
+        url: "https://news.ycombinator.com".to_string(),
+        title: Some("Hacker News".to_string()),
+        http_status: 200,
+        mode: SnapshotMode::Semantic,
+        scroll_percent: 0.0,
+        source: SnapshotSource::DirectNegotiation,
+        nodes: vec![AXNode {
+            ref_id: Some(1),
+            backend_node_id: Some(10),
+            role: "link".to_string(),
+            name: Some("Hacker News".to_string()),
+            value: None,
+            placeholder: None,
+            checked: None,
+            expanded: None,
+            level: None,
+            href: Some("https://news.ycombinator.com".to_string()),
+            children: vec![],
+        }],
+    };
+
+    let md = format_snapshot_markdown(&snapshot);
+    assert!(md.contains("<!-- URL: https://news.ycombinator.com"));
+    assert!(md.contains("[link #1 \"Hacker News\" href=\"https://news.ycombinator.com\"]"));
+}
+

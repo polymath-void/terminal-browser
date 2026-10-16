@@ -1,0 +1,2668 @@
+[
+  {
+    "name": "Anthropic Documentation (/llms.txt discovery)",
+    "url": "https://docs.anthropic.com/llms.txt",
+    "category": "Fast-Path /llms.txt",
+    "expected_source": "llms.txt",
+    "actual_source": "llms.txt",
+    "status": 200,
+    "iterations": 3,
+    "latency_min_ms": 537.31,
+    "latency_mean_ms": 554.92,
+    "latency_median_ms": 539.29,
+    "latency_max_ms": 588.15,
+    "payload_bytes": 85866,
+    "content_type": "text/plain; charset=utf-8",
+    "ref_count": 0,
+    "ref_integrity": true,
+    "validation_passed": true,
+    "sample_res": {
+      "source": "llms.txt",
+      "status": 200,
+      "latency_ms": 569.0284000011161,
+      "content_type": "text/plain; charset=utf-8",
+      "content_length": 85866
+    }
+  },
+  {
+    "name": "Hacker News (Dynamic HTML -> AXTree Pruning)",
+    "url": "https://news.ycombinator.com",
+    "category": "HTML AXTree Reduction",
+    "expected_source": "html_axtree_fallback",
+    "actual_source": "html_axtree_fallback",
+    "status": 200,
+    "iterations": 3,
+    "latency_min_ms": 2520.98,
+    "latency_mean_ms": 2709.38,
+    "latency_median_ms": 2604.88,
+    "latency_max_ms": 3002.29,
+    "payload_bytes": 34852,
+    "content_type": "text/html; charset=utf-8",
+    "ref_count": 231,
+    "ref_integrity": true,
+    "validation_passed": true,
+    "sample_res": {
+      "source": "html_axtree_fallback",
+      "status": 200,
+      "latency_ms": 1462.4048000005132,
+      "content_type": "text/html; charset=utf-8",
+      "content_length": 34852,
+      "ref_map": {
+        "1": {
+          "ref_id": 1,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "https://news.ycombinator.com",
+          "type": "",
+          "attrs": {
+            "href": "https://news.ycombinator.com"
+          }
+        },
+        "2": {
+          "ref_id": 2,
+          "tag": "a",
+          "role": "link",
+          "name": "Hacker News",
+          "href": "news",
+          "type": "",
+          "attrs": {
+            "href": "news"
+          }
+        },
+        "3": {
+          "ref_id": 3,
+          "tag": "a",
+          "role": "link",
+          "name": "new",
+          "href": "newest",
+          "type": "",
+          "attrs": {
+            "href": "newest"
+          }
+        },
+        "4": {
+          "ref_id": 4,
+          "tag": "a",
+          "role": "link",
+          "name": "past",
+          "href": "front",
+          "type": "",
+          "attrs": {
+            "href": "front"
+          }
+        },
+        "5": {
+          "ref_id": 5,
+          "tag": "a",
+          "role": "link",
+          "name": "comments",
+          "href": "newcomments",
+          "type": "",
+          "attrs": {
+            "href": "newcomments"
+          }
+        },
+        "6": {
+          "ref_id": 6,
+          "tag": "a",
+          "role": "link",
+          "name": "ask",
+          "href": "ask",
+          "type": "",
+          "attrs": {
+            "href": "ask"
+          }
+        },
+        "7": {
+          "ref_id": 7,
+          "tag": "a",
+          "role": "link",
+          "name": "show",
+          "href": "show",
+          "type": "",
+          "attrs": {
+            "href": "show"
+          }
+        },
+        "8": {
+          "ref_id": 8,
+          "tag": "a",
+          "role": "link",
+          "name": "jobs",
+          "href": "jobs",
+          "type": "",
+          "attrs": {
+            "href": "jobs"
+          }
+        },
+        "9": {
+          "ref_id": 9,
+          "tag": "a",
+          "role": "link",
+          "name": "submit",
+          "href": "submit",
+          "type": "",
+          "attrs": {
+            "href": "submit",
+            "rel": "nofollow"
+          }
+        },
+        "10": {
+          "ref_id": 10,
+          "tag": "a",
+          "role": "link",
+          "name": "login",
+          "href": "login?goto=news",
+          "type": "",
+          "attrs": {
+            "href": "login?goto=news"
+          }
+        },
+        "11": {
+          "ref_id": 11,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50107379&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50107379",
+            "href": "vote?id=50107379&how=up&goto=news"
+          }
+        },
+        "12": {
+          "ref_id": 12,
+          "tag": "a",
+          "role": "link",
+          "name": "Muse Spark Open",
+          "href": "https://research.meta.ai/blog/muse-spark-open",
+          "type": "",
+          "attrs": {
+            "href": "https://research.meta.ai/blog/muse-spark-open"
+          }
+        },
+        "13": {
+          "ref_id": 13,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=meta.ai",
+          "type": "",
+          "attrs": {
+            "href": "from?site=meta.ai"
+          }
+        },
+        "14": {
+          "ref_id": 14,
+          "tag": "a",
+          "role": "link",
+          "name": "bigwheels",
+          "href": "user?id=bigwheels",
+          "type": "",
+          "attrs": {
+            "href": "user?id=bigwheels",
+            "class": "hnuser"
+          }
+        },
+        "15": {
+          "ref_id": 15,
+          "tag": "a",
+          "role": "link",
+          "name": "6 hours ago",
+          "href": "item?id=50107379",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50107379"
+          }
+        },
+        "16": {
+          "ref_id": 16,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50107379&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50107379&goto=news"
+          }
+        },
+        "17": {
+          "ref_id": 17,
+          "tag": "a",
+          "role": "link",
+          "name": "328 comments",
+          "href": "item?id=50107379",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50107379"
+          }
+        },
+        "18": {
+          "ref_id": 18,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50109715&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50109715",
+            "href": "vote?id=50109715&how=up&goto=news"
+          }
+        },
+        "19": {
+          "ref_id": 19,
+          "tag": "a",
+          "role": "link",
+          "name": "What I Self-Host",
+          "href": "https://viceconsole.fyi/blog/2026/10/10/what-i-self-host/",
+          "type": "",
+          "attrs": {
+            "href": "https://viceconsole.fyi/blog/2026/10/10/what-i-self-host/"
+          }
+        },
+        "20": {
+          "ref_id": 20,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=viceconsole.fyi",
+          "type": "",
+          "attrs": {
+            "href": "from?site=viceconsole.fyi"
+          }
+        },
+        "21": {
+          "ref_id": 21,
+          "tag": "a",
+          "role": "link",
+          "name": "BrunoBernardino",
+          "href": "user?id=BrunoBernardino",
+          "type": "",
+          "attrs": {
+            "href": "user?id=BrunoBernardino",
+            "class": "hnuser"
+          }
+        },
+        "22": {
+          "ref_id": 22,
+          "tag": "a",
+          "role": "link",
+          "name": "4 hours ago",
+          "href": "item?id=50109715",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50109715"
+          }
+        },
+        "23": {
+          "ref_id": 23,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50109715&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50109715&goto=news"
+          }
+        },
+        "24": {
+          "ref_id": 24,
+          "tag": "a",
+          "role": "link",
+          "name": "117 comments",
+          "href": "item?id=50109715",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50109715"
+          }
+        },
+        "25": {
+          "ref_id": 25,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50105647&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50105647",
+            "href": "vote?id=50105647&how=up&goto=news"
+          }
+        },
+        "26": {
+          "ref_id": 26,
+          "tag": "a",
+          "role": "link",
+          "name": "Neural networks are clean",
+          "href": "https://already-clean.goodfire.com/",
+          "type": "",
+          "attrs": {
+            "href": "https://already-clean.goodfire.com/"
+          }
+        },
+        "27": {
+          "ref_id": 27,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=goodfire.com",
+          "type": "",
+          "attrs": {
+            "href": "from?site=goodfire.com"
+          }
+        },
+        "28": {
+          "ref_id": 28,
+          "tag": "a",
+          "role": "link",
+          "name": "themgt",
+          "href": "user?id=themgt",
+          "type": "",
+          "attrs": {
+            "href": "user?id=themgt",
+            "class": "hnuser"
+          }
+        },
+        "29": {
+          "ref_id": 29,
+          "tag": "a",
+          "role": "link",
+          "name": "8 hours ago",
+          "href": "item?id=50105647",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50105647"
+          }
+        },
+        "30": {
+          "ref_id": 30,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50105647&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50105647&goto=news"
+          }
+        },
+        "31": {
+          "ref_id": 31,
+          "tag": "a",
+          "role": "link",
+          "name": "184 comments",
+          "href": "item?id=50105647",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50105647"
+          }
+        },
+        "32": {
+          "ref_id": 32,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50108872&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50108872",
+            "href": "vote?id=50108872&how=up&goto=news"
+          }
+        },
+        "33": {
+          "ref_id": 33,
+          "tag": "a",
+          "role": "link",
+          "name": "Someone on Torrent Sites Kept Fucking with My Sonarr",
+          "href": "https://thereallo.dev/blog/someone-on-torrent-sites-kept-fucking-with-my-sonarr-setup",
+          "type": "",
+          "attrs": {
+            "href": "https://thereallo.dev/blog/someone-on-torrent-sites-kept-fucking-with-my-sonarr-setup"
+          }
+        },
+        "34": {
+          "ref_id": 34,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=thereallo.dev",
+          "type": "",
+          "attrs": {
+            "href": "from?site=thereallo.dev"
+          }
+        },
+        "35": {
+          "ref_id": 35,
+          "tag": "a",
+          "role": "link",
+          "name": "speckx",
+          "href": "user?id=speckx",
+          "type": "",
+          "attrs": {
+            "href": "user?id=speckx",
+            "class": "hnuser"
+          }
+        },
+        "36": {
+          "ref_id": 36,
+          "tag": "a",
+          "role": "link",
+          "name": "5 hours ago",
+          "href": "item?id=50108872",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50108872"
+          }
+        },
+        "37": {
+          "ref_id": 37,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50108872&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50108872&goto=news"
+          }
+        },
+        "38": {
+          "ref_id": 38,
+          "tag": "a",
+          "role": "link",
+          "name": "80 comments",
+          "href": "item?id=50108872",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50108872"
+          }
+        },
+        "39": {
+          "ref_id": 39,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50103338&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50103338",
+            "href": "vote?id=50103338&how=up&goto=news"
+          }
+        },
+        "40": {
+          "ref_id": 40,
+          "tag": "a",
+          "role": "link",
+          "name": "Wayland desktop for Linux with skeuomorphic design",
+          "href": "https://github.com/fyzugx/DEsk",
+          "type": "",
+          "attrs": {
+            "href": "https://github.com/fyzugx/DEsk"
+          }
+        },
+        "41": {
+          "ref_id": 41,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=github.com/fyzugx",
+          "type": "",
+          "attrs": {
+            "href": "from?site=github.com/fyzugx"
+          }
+        },
+        "42": {
+          "ref_id": 42,
+          "tag": "a",
+          "role": "link",
+          "name": "FinalDestiny",
+          "href": "user?id=FinalDestiny",
+          "type": "",
+          "attrs": {
+            "href": "user?id=FinalDestiny",
+            "class": "hnuser"
+          }
+        },
+        "43": {
+          "ref_id": 43,
+          "tag": "a",
+          "role": "link",
+          "name": "11 hours ago",
+          "href": "item?id=50103338",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50103338"
+          }
+        },
+        "44": {
+          "ref_id": 44,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50103338&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50103338&goto=news"
+          }
+        },
+        "45": {
+          "ref_id": 45,
+          "tag": "a",
+          "role": "link",
+          "name": "194 comments",
+          "href": "item?id=50103338",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50103338"
+          }
+        },
+        "46": {
+          "ref_id": 46,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50106023&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50106023",
+            "href": "vote?id=50106023&how=up&goto=news"
+          }
+        },
+        "47": {
+          "ref_id": 47,
+          "tag": "a",
+          "role": "link",
+          "name": "Jev meets the Trolley Problem",
+          "href": "https://zachlandes.com/trolley-problem/",
+          "type": "",
+          "attrs": {
+            "href": "https://zachlandes.com/trolley-problem/"
+          }
+        },
+        "48": {
+          "ref_id": 48,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=zachlandes.com",
+          "type": "",
+          "attrs": {
+            "href": "from?site=zachlandes.com"
+          }
+        },
+        "49": {
+          "ref_id": 49,
+          "tag": "a",
+          "role": "link",
+          "name": "zlandes86",
+          "href": "user?id=zlandes86",
+          "type": "",
+          "attrs": {
+            "href": "user?id=zlandes86",
+            "class": "hnuser"
+          }
+        },
+        "50": {
+          "ref_id": 50,
+          "tag": "a",
+          "role": "link",
+          "name": "8 hours ago",
+          "href": "item?id=50106023",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50106023"
+          }
+        },
+        "51": {
+          "ref_id": 51,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50106023&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50106023&goto=news"
+          }
+        },
+        "52": {
+          "ref_id": 52,
+          "tag": "a",
+          "role": "link",
+          "name": "126 comments",
+          "href": "item?id=50106023",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50106023"
+          }
+        },
+        "53": {
+          "ref_id": 53,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50101813&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50101813",
+            "href": "vote?id=50101813&how=up&goto=news"
+          }
+        },
+        "54": {
+          "ref_id": 54,
+          "tag": "a",
+          "role": "link",
+          "name": "AdFection: Targeted ads turned into a pipeline for zero-click mercenary spyware",
+          "href": "https://citizenlab.ca/research/how-discover-tech-turned-targeted-ads-into-a-pipeline-for-spyware/",
+          "type": "",
+          "attrs": {
+            "href": "https://citizenlab.ca/research/how-discover-tech-turned-targeted-ads-into-a-pipeline-for-spyware/"
+          }
+        },
+        "55": {
+          "ref_id": 55,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=citizenlab.ca",
+          "type": "",
+          "attrs": {
+            "href": "from?site=citizenlab.ca"
+          }
+        },
+        "56": {
+          "ref_id": 56,
+          "tag": "a",
+          "role": "link",
+          "name": "jcomp",
+          "href": "user?id=jcomp",
+          "type": "",
+          "attrs": {
+            "href": "user?id=jcomp",
+            "class": "hnuser"
+          }
+        },
+        "57": {
+          "ref_id": 57,
+          "tag": "a",
+          "role": "link",
+          "name": "13 hours ago",
+          "href": "item?id=50101813",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50101813"
+          }
+        },
+        "58": {
+          "ref_id": 58,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50101813&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50101813&goto=news"
+          }
+        },
+        "59": {
+          "ref_id": 59,
+          "tag": "a",
+          "role": "link",
+          "name": "539 comments",
+          "href": "item?id=50101813",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50101813"
+          }
+        },
+        "60": {
+          "ref_id": 60,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50069439&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50069439",
+            "href": "vote?id=50069439&how=up&goto=news"
+          }
+        },
+        "61": {
+          "ref_id": 61,
+          "tag": "a",
+          "role": "link",
+          "name": "Major ICQ security hole (1998)",
+          "href": "https://opennet.ru/base/maillist/169.txt.html",
+          "type": "",
+          "attrs": {
+            "href": "https://opennet.ru/base/maillist/169.txt.html"
+          }
+        },
+        "62": {
+          "ref_id": 62,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=opennet.ru",
+          "type": "",
+          "attrs": {
+            "href": "from?site=opennet.ru"
+          }
+        },
+        "63": {
+          "ref_id": 63,
+          "tag": "a",
+          "role": "link",
+          "name": "sysoleg",
+          "href": "user?id=sysoleg",
+          "type": "",
+          "attrs": {
+            "href": "user?id=sysoleg",
+            "class": "hnuser"
+          }
+        },
+        "64": {
+          "ref_id": 64,
+          "tag": "a",
+          "role": "link",
+          "name": "2 hours ago",
+          "href": "item?id=50069439",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50069439"
+          }
+        },
+        "65": {
+          "ref_id": 65,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50069439&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50069439&goto=news"
+          }
+        },
+        "66": {
+          "ref_id": 66,
+          "tag": "a",
+          "role": "link",
+          "name": "11 comments",
+          "href": "item?id=50069439",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50069439"
+          }
+        },
+        "67": {
+          "ref_id": 67,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50105648&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50105648",
+            "href": "vote?id=50105648&how=up&goto=news"
+          }
+        },
+        "68": {
+          "ref_id": 68,
+          "tag": "a",
+          "role": "link",
+          "name": "Krea 3 \u2013 An image model built for editing at scale",
+          "href": "https://www.krea.ai/krea-3",
+          "type": "",
+          "attrs": {
+            "href": "https://www.krea.ai/krea-3"
+          }
+        },
+        "69": {
+          "ref_id": 69,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=krea.ai",
+          "type": "",
+          "attrs": {
+            "href": "from?site=krea.ai"
+          }
+        },
+        "70": {
+          "ref_id": 70,
+          "tag": "a",
+          "role": "link",
+          "name": "dvrp",
+          "href": "user?id=dvrp",
+          "type": "",
+          "attrs": {
+            "href": "user?id=dvrp",
+            "class": "hnuser"
+          }
+        },
+        "71": {
+          "ref_id": 71,
+          "tag": "a",
+          "role": "link",
+          "name": "8 hours ago",
+          "href": "item?id=50105648",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50105648"
+          }
+        },
+        "72": {
+          "ref_id": 72,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50105648&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50105648&goto=news"
+          }
+        },
+        "73": {
+          "ref_id": 73,
+          "tag": "a",
+          "role": "link",
+          "name": "78 comments",
+          "href": "item?id=50105648",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50105648"
+          }
+        },
+        "74": {
+          "ref_id": 74,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50109375&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50109375",
+            "href": "vote?id=50109375&how=up&goto=news"
+          }
+        },
+        "75": {
+          "ref_id": 75,
+          "tag": "a",
+          "role": "link",
+          "name": "New Withings Users Must Pay $99/Year for Apple Health Syncing",
+          "href": "https://support.withings.com/hc/en-us/community/posts/51887047154577-Unacceptable-Apple-Health-Sync-is-now-behind-a-99-year-paywall-for-new-accounts",
+          "type": "",
+          "attrs": {
+            "href": "https://support.withings.com/hc/en-us/community/posts/51887047154577-Unacceptable-Apple-Health-Sync-is-now-behind-a-99-year-paywall-for-new-accounts"
+          }
+        },
+        "76": {
+          "ref_id": 76,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=withings.com",
+          "type": "",
+          "attrs": {
+            "href": "from?site=withings.com"
+          }
+        },
+        "77": {
+          "ref_id": 77,
+          "tag": "a",
+          "role": "link",
+          "name": "johnbehnke",
+          "href": "user?id=johnbehnke",
+          "type": "",
+          "attrs": {
+            "href": "user?id=johnbehnke",
+            "class": "hnuser"
+          }
+        },
+        "78": {
+          "ref_id": 78,
+          "tag": "a",
+          "role": "link",
+          "name": "4 hours ago",
+          "href": "item?id=50109375",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50109375"
+          }
+        },
+        "79": {
+          "ref_id": 79,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50109375&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50109375&goto=news"
+          }
+        },
+        "80": {
+          "ref_id": 80,
+          "tag": "a",
+          "role": "link",
+          "name": "116 comments",
+          "href": "item?id=50109375",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50109375"
+          }
+        },
+        "81": {
+          "ref_id": 81,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50082637&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50082637",
+            "href": "vote?id=50082637&how=up&goto=news"
+          }
+        },
+        "82": {
+          "ref_id": 82,
+          "tag": "a",
+          "role": "link",
+          "name": "The 8-mile hole in a Hawaii national park that no one can explain",
+          "href": "https://www.sfgate.com/national-parks/article/hawaii-volcanoes-park-great-crack-22358849.php",
+          "type": "",
+          "attrs": {
+            "href": "https://www.sfgate.com/national-parks/article/hawaii-volcanoes-park-great-crack-22358849.php"
+          }
+        },
+        "83": {
+          "ref_id": 83,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=sfgate.com",
+          "type": "",
+          "attrs": {
+            "href": "from?site=sfgate.com"
+          }
+        },
+        "84": {
+          "ref_id": 84,
+          "tag": "a",
+          "role": "link",
+          "name": "elsewhen",
+          "href": "user?id=elsewhen",
+          "type": "",
+          "attrs": {
+            "href": "user?id=elsewhen",
+            "class": "hnuser"
+          }
+        },
+        "85": {
+          "ref_id": 85,
+          "tag": "a",
+          "role": "link",
+          "name": "3 hours ago",
+          "href": "item?id=50082637",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50082637"
+          }
+        },
+        "86": {
+          "ref_id": 86,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50082637&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50082637&goto=news"
+          }
+        },
+        "87": {
+          "ref_id": 87,
+          "tag": "a",
+          "role": "link",
+          "name": "26 comments",
+          "href": "item?id=50082637",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50082637"
+          }
+        },
+        "88": {
+          "ref_id": 88,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50104726&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50104726",
+            "href": "vote?id=50104726&how=up&goto=news"
+          }
+        },
+        "89": {
+          "ref_id": 89,
+          "tag": "a",
+          "role": "link",
+          "name": "Celebrating 70 Years of Fortran",
+          "href": "https://fortran-lang.org/news/2026/09-15-Fortran-birthday/",
+          "type": "",
+          "attrs": {
+            "href": "https://fortran-lang.org/news/2026/09-15-Fortran-birthday/"
+          }
+        },
+        "90": {
+          "ref_id": 90,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=fortran-lang.org",
+          "type": "",
+          "attrs": {
+            "href": "from?site=fortran-lang.org"
+          }
+        },
+        "91": {
+          "ref_id": 91,
+          "tag": "a",
+          "role": "link",
+          "name": "rbanffy",
+          "href": "user?id=rbanffy",
+          "type": "",
+          "attrs": {
+            "href": "user?id=rbanffy",
+            "class": "hnuser"
+          }
+        },
+        "92": {
+          "ref_id": 92,
+          "tag": "a",
+          "role": "link",
+          "name": "9 hours ago",
+          "href": "item?id=50104726",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50104726"
+          }
+        },
+        "93": {
+          "ref_id": 93,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50104726&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50104726&goto=news"
+          }
+        },
+        "94": {
+          "ref_id": 94,
+          "tag": "a",
+          "role": "link",
+          "name": "94 comments",
+          "href": "item?id=50104726",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50104726"
+          }
+        },
+        "95": {
+          "ref_id": 95,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50068203&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50068203",
+            "href": "vote?id=50068203&how=up&goto=news"
+          }
+        },
+        "96": {
+          "ref_id": 96,
+          "tag": "a",
+          "role": "link",
+          "name": "Apple routed a graphite pipe through the iPhone Duo's hinge to dissipate heat",
+          "href": "https://www.pcmag.com/news/apple-routed-a-graphite-pipe-through-the-iphone-duos-hinge",
+          "type": "",
+          "attrs": {
+            "href": "https://www.pcmag.com/news/apple-routed-a-graphite-pipe-through-the-iphone-duos-hinge"
+          }
+        },
+        "97": {
+          "ref_id": 97,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=pcmag.com",
+          "type": "",
+          "attrs": {
+            "href": "from?site=pcmag.com"
+          }
+        },
+        "98": {
+          "ref_id": 98,
+          "tag": "a",
+          "role": "link",
+          "name": "giuliomagnifico",
+          "href": "user?id=giuliomagnifico",
+          "type": "",
+          "attrs": {
+            "href": "user?id=giuliomagnifico",
+            "class": "hnuser"
+          }
+        },
+        "99": {
+          "ref_id": 99,
+          "tag": "a",
+          "role": "link",
+          "name": "1 hour ago",
+          "href": "item?id=50068203",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50068203"
+          }
+        },
+        "100": {
+          "ref_id": 100,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50068203&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50068203&goto=news"
+          }
+        },
+        "101": {
+          "ref_id": 101,
+          "tag": "a",
+          "role": "link",
+          "name": "discuss",
+          "href": "item?id=50068203",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50068203"
+          }
+        },
+        "102": {
+          "ref_id": 102,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50108229&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50108229",
+            "href": "vote?id=50108229&how=up&goto=news"
+          }
+        },
+        "103": {
+          "ref_id": 103,
+          "tag": "a",
+          "role": "link",
+          "name": "E Ink Kaleido 4",
+          "href": "https://www.eink.com/news/detail/EInk-Launches-Latest-Version-of-Color-ePaper-Platform-E-Ink-Kaleido-4",
+          "type": "",
+          "attrs": {
+            "href": "https://www.eink.com/news/detail/EInk-Launches-Latest-Version-of-Color-ePaper-Platform-E-Ink-Kaleido-4"
+          }
+        },
+        "104": {
+          "ref_id": 104,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=eink.com",
+          "type": "",
+          "attrs": {
+            "href": "from?site=eink.com"
+          }
+        },
+        "105": {
+          "ref_id": 105,
+          "tag": "a",
+          "role": "link",
+          "name": "Perroboc",
+          "href": "user?id=Perroboc",
+          "type": "",
+          "attrs": {
+            "href": "user?id=Perroboc",
+            "class": "hnuser"
+          }
+        },
+        "106": {
+          "ref_id": 106,
+          "tag": "a",
+          "role": "link",
+          "name": "5 hours ago",
+          "href": "item?id=50108229",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50108229"
+          }
+        },
+        "107": {
+          "ref_id": 107,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50108229&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50108229&goto=news"
+          }
+        },
+        "108": {
+          "ref_id": 108,
+          "tag": "a",
+          "role": "link",
+          "name": "69 comments",
+          "href": "item?id=50108229",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50108229"
+          }
+        },
+        "109": {
+          "ref_id": 109,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50084674&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50084674",
+            "href": "vote?id=50084674&how=up&goto=news"
+          }
+        },
+        "110": {
+          "ref_id": 110,
+          "tag": "a",
+          "role": "link",
+          "name": "Why I Wrote PGP (1991, revised 1999)",
+          "href": "https://philzimmermann.com/EN/essays/WhyIWrotePGP.html",
+          "type": "",
+          "attrs": {
+            "href": "https://philzimmermann.com/EN/essays/WhyIWrotePGP.html"
+          }
+        },
+        "111": {
+          "ref_id": 111,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=philzimmermann.com",
+          "type": "",
+          "attrs": {
+            "href": "from?site=philzimmermann.com"
+          }
+        },
+        "112": {
+          "ref_id": 112,
+          "tag": "a",
+          "role": "link",
+          "name": "GaryBluto",
+          "href": "user?id=GaryBluto",
+          "type": "",
+          "attrs": {
+            "href": "user?id=GaryBluto",
+            "class": "hnuser"
+          }
+        },
+        "113": {
+          "ref_id": 113,
+          "tag": "a",
+          "role": "link",
+          "name": "6 hours ago",
+          "href": "item?id=50084674",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50084674"
+          }
+        },
+        "114": {
+          "ref_id": 114,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50084674&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50084674&goto=news"
+          }
+        },
+        "115": {
+          "ref_id": 115,
+          "tag": "a",
+          "role": "link",
+          "name": "39 comments",
+          "href": "item?id=50084674",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50084674"
+          }
+        },
+        "116": {
+          "ref_id": 116,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50080155&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50080155",
+            "href": "vote?id=50080155&how=up&goto=news"
+          }
+        },
+        "117": {
+          "ref_id": 117,
+          "tag": "a",
+          "role": "link",
+          "name": "Delta\u2019s Biscoff cookies were supposed to be temporary",
+          "href": "https://www.seriouseats.com/biscoff-history-12168161",
+          "type": "",
+          "attrs": {
+            "href": "https://www.seriouseats.com/biscoff-history-12168161"
+          }
+        },
+        "118": {
+          "ref_id": 118,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=seriouseats.com",
+          "type": "",
+          "attrs": {
+            "href": "from?site=seriouseats.com"
+          }
+        },
+        "119": {
+          "ref_id": 119,
+          "tag": "a",
+          "role": "link",
+          "name": "mhb",
+          "href": "user?id=mhb",
+          "type": "",
+          "attrs": {
+            "href": "user?id=mhb",
+            "class": "hnuser"
+          }
+        },
+        "120": {
+          "ref_id": 120,
+          "tag": "a",
+          "role": "link",
+          "name": "9 hours ago",
+          "href": "item?id=50080155",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50080155"
+          }
+        },
+        "121": {
+          "ref_id": 121,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50080155&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50080155&goto=news"
+          }
+        },
+        "122": {
+          "ref_id": 122,
+          "tag": "a",
+          "role": "link",
+          "name": "141 comments",
+          "href": "item?id=50080155",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50080155"
+          }
+        },
+        "123": {
+          "ref_id": 123,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50102923&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50102923",
+            "href": "vote?id=50102923&how=up&goto=news"
+          }
+        },
+        "124": {
+          "ref_id": 124,
+          "tag": "a",
+          "role": "link",
+          "name": "Libreboot 26.10 \"Ominous Olive\" released with UEFI, Chromebook support",
+          "href": "https://libreboot.org/news/libreboot2610.html",
+          "type": "",
+          "attrs": {
+            "href": "https://libreboot.org/news/libreboot2610.html"
+          }
+        },
+        "125": {
+          "ref_id": 125,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=libreboot.org",
+          "type": "",
+          "attrs": {
+            "href": "from?site=libreboot.org"
+          }
+        },
+        "126": {
+          "ref_id": 126,
+          "tag": "a",
+          "role": "link",
+          "name": "iamnothere",
+          "href": "user?id=iamnothere",
+          "type": "",
+          "attrs": {
+            "href": "user?id=iamnothere",
+            "class": "hnuser"
+          }
+        },
+        "127": {
+          "ref_id": 127,
+          "tag": "a",
+          "role": "link",
+          "name": "11 hours ago",
+          "href": "item?id=50102923",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50102923"
+          }
+        },
+        "128": {
+          "ref_id": 128,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50102923&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50102923&goto=news"
+          }
+        },
+        "129": {
+          "ref_id": 129,
+          "tag": "a",
+          "role": "link",
+          "name": "145 comments",
+          "href": "item?id=50102923",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50102923"
+          }
+        },
+        "130": {
+          "ref_id": 130,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50111742&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50111742",
+            "href": "vote?id=50111742&how=up&goto=news"
+          }
+        },
+        "131": {
+          "ref_id": 131,
+          "tag": "a",
+          "role": "link",
+          "name": "BeBox is a Haiku application that emulates Be Inc.'s BeBox",
+          "href": "https://github.com/johnrash/bebox",
+          "type": "",
+          "attrs": {
+            "href": "https://github.com/johnrash/bebox",
+            "rel": "nofollow"
+          }
+        },
+        "132": {
+          "ref_id": 132,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=github.com/johnrash",
+          "type": "",
+          "attrs": {
+            "href": "from?site=github.com/johnrash"
+          }
+        },
+        "133": {
+          "ref_id": 133,
+          "tag": "a",
+          "role": "link",
+          "name": "rguiscard",
+          "href": "user?id=rguiscard",
+          "type": "",
+          "attrs": {
+            "href": "user?id=rguiscard",
+            "class": "hnuser"
+          }
+        },
+        "134": {
+          "ref_id": 134,
+          "tag": "a",
+          "role": "link",
+          "name": "1 hour ago",
+          "href": "item?id=50111742",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50111742"
+          }
+        },
+        "135": {
+          "ref_id": 135,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50111742&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50111742&goto=news"
+          }
+        },
+        "136": {
+          "ref_id": 136,
+          "tag": "a",
+          "role": "link",
+          "name": "1 comment",
+          "href": "item?id=50111742",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50111742"
+          }
+        },
+        "137": {
+          "ref_id": 137,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50097843&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50097843",
+            "href": "vote?id=50097843&how=up&goto=news"
+          }
+        },
+        "138": {
+          "ref_id": 138,
+          "tag": "a",
+          "role": "link",
+          "name": "The engineering that allows articulated buses to bend",
+          "href": "https://www.theautopian.com/you-wont-believe-the-incredible-engineering-that-allows-articulated-buses-to-bend/",
+          "type": "",
+          "attrs": {
+            "href": "https://www.theautopian.com/you-wont-believe-the-incredible-engineering-that-allows-articulated-buses-to-bend/"
+          }
+        },
+        "139": {
+          "ref_id": 139,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=theautopian.com",
+          "type": "",
+          "attrs": {
+            "href": "from?site=theautopian.com"
+          }
+        },
+        "140": {
+          "ref_id": 140,
+          "tag": "a",
+          "role": "link",
+          "name": "CharlesW",
+          "href": "user?id=CharlesW",
+          "type": "",
+          "attrs": {
+            "href": "user?id=CharlesW",
+            "class": "hnuser"
+          }
+        },
+        "141": {
+          "ref_id": 141,
+          "tag": "a",
+          "role": "link",
+          "name": "6 hours ago",
+          "href": "item?id=50097843",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50097843"
+          }
+        },
+        "142": {
+          "ref_id": 142,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50097843&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50097843&goto=news"
+          }
+        },
+        "143": {
+          "ref_id": 143,
+          "tag": "a",
+          "role": "link",
+          "name": "35 comments",
+          "href": "item?id=50097843",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50097843"
+          }
+        },
+        "144": {
+          "ref_id": 144,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50111708&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50111708",
+            "href": "vote?id=50111708&how=up&goto=news"
+          }
+        },
+        "145": {
+          "ref_id": 145,
+          "tag": "a",
+          "role": "link",
+          "name": "U.K. Sanctions Cryptomus for RU Money Laundering",
+          "href": "https://krebsonsecurity.com/2026/10/u-k-sanctions-cryptomus-for-ru-money-laundering/",
+          "type": "",
+          "attrs": {
+            "href": "https://krebsonsecurity.com/2026/10/u-k-sanctions-cryptomus-for-ru-money-laundering/",
+            "rel": "nofollow"
+          }
+        },
+        "146": {
+          "ref_id": 146,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=krebsonsecurity.com",
+          "type": "",
+          "attrs": {
+            "href": "from?site=krebsonsecurity.com"
+          }
+        },
+        "147": {
+          "ref_id": 147,
+          "tag": "a",
+          "role": "link",
+          "name": "Bender",
+          "href": "user?id=Bender",
+          "type": "",
+          "attrs": {
+            "href": "user?id=Bender",
+            "class": "hnuser"
+          }
+        },
+        "148": {
+          "ref_id": 148,
+          "tag": "a",
+          "role": "link",
+          "name": "1 hour ago",
+          "href": "item?id=50111708",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50111708"
+          }
+        },
+        "149": {
+          "ref_id": 149,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50111708&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50111708&goto=news"
+          }
+        },
+        "150": {
+          "ref_id": 150,
+          "tag": "a",
+          "role": "link",
+          "name": "discuss",
+          "href": "item?id=50111708",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50111708"
+          }
+        },
+        "151": {
+          "ref_id": 151,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50102247&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50102247",
+            "href": "vote?id=50102247&how=up&goto=news"
+          }
+        },
+        "152": {
+          "ref_id": 152,
+          "tag": "a",
+          "role": "link",
+          "name": "Show HN: Unfenced \u2013 Land for sale that borders public land",
+          "href": "https://unfenced.land/",
+          "type": "",
+          "attrs": {
+            "href": "https://unfenced.land/"
+          }
+        },
+        "153": {
+          "ref_id": 153,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=unfenced.land",
+          "type": "",
+          "attrs": {
+            "href": "from?site=unfenced.land"
+          }
+        },
+        "154": {
+          "ref_id": 154,
+          "tag": "a",
+          "role": "link",
+          "name": "otherwatersflow",
+          "href": "user?id=otherwatersflow",
+          "type": "",
+          "attrs": {
+            "href": "user?id=otherwatersflow",
+            "class": "hnuser"
+          }
+        },
+        "155": {
+          "ref_id": 155,
+          "tag": "a",
+          "role": "link",
+          "name": "12 hours ago",
+          "href": "item?id=50102247",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50102247"
+          }
+        },
+        "156": {
+          "ref_id": 156,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50102247&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50102247&goto=news"
+          }
+        },
+        "157": {
+          "ref_id": 157,
+          "tag": "a",
+          "role": "link",
+          "name": "179 comments",
+          "href": "item?id=50102247",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50102247"
+          }
+        },
+        "158": {
+          "ref_id": 158,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50104299&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50104299",
+            "href": "vote?id=50104299&how=up&goto=news"
+          }
+        },
+        "159": {
+          "ref_id": 159,
+          "tag": "a",
+          "role": "link",
+          "name": "Using AI to reverse engineer hardware",
+          "href": "https://blogs.gnome.org/uraeus/2026/10/15/aiandreverseengineerhardware/",
+          "type": "",
+          "attrs": {
+            "href": "https://blogs.gnome.org/uraeus/2026/10/15/aiandreverseengineerhardware/"
+          }
+        },
+        "160": {
+          "ref_id": 160,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=gnome.org",
+          "type": "",
+          "attrs": {
+            "href": "from?site=gnome.org"
+          }
+        },
+        "161": {
+          "ref_id": 161,
+          "tag": "a",
+          "role": "link",
+          "name": "ErenayDev",
+          "href": "user?id=ErenayDev",
+          "type": "",
+          "attrs": {
+            "href": "user?id=ErenayDev",
+            "class": "hnuser"
+          }
+        },
+        "162": {
+          "ref_id": 162,
+          "tag": "a",
+          "role": "link",
+          "name": "9 hours ago",
+          "href": "item?id=50104299",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50104299"
+          }
+        },
+        "163": {
+          "ref_id": 163,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50104299&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50104299&goto=news"
+          }
+        },
+        "164": {
+          "ref_id": 164,
+          "tag": "a",
+          "role": "link",
+          "name": "105 comments",
+          "href": "item?id=50104299",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50104299"
+          }
+        },
+        "165": {
+          "ref_id": 165,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50105635&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50105635",
+            "href": "vote?id=50105635&how=up&goto=news"
+          }
+        },
+        "166": {
+          "ref_id": 166,
+          "tag": "a",
+          "role": "link",
+          "name": "Steam Client is now faster than Epic's new vibe coded launcher",
+          "href": "https://respawnfirst.com/steam-client-is-now-faster-than-epics-new-vibe-coded-launcher/",
+          "type": "",
+          "attrs": {
+            "href": "https://respawnfirst.com/steam-client-is-now-faster-than-epics-new-vibe-coded-launcher/"
+          }
+        },
+        "167": {
+          "ref_id": 167,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=respawnfirst.com",
+          "type": "",
+          "attrs": {
+            "href": "from?site=respawnfirst.com"
+          }
+        },
+        "168": {
+          "ref_id": 168,
+          "tag": "a",
+          "role": "link",
+          "name": "starkparker",
+          "href": "user?id=starkparker",
+          "type": "",
+          "attrs": {
+            "href": "user?id=starkparker",
+            "class": "hnuser"
+          }
+        },
+        "169": {
+          "ref_id": 169,
+          "tag": "a",
+          "role": "link",
+          "name": "8 hours ago",
+          "href": "item?id=50105635",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50105635"
+          }
+        },
+        "170": {
+          "ref_id": 170,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50105635&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50105635&goto=news"
+          }
+        },
+        "171": {
+          "ref_id": 171,
+          "tag": "a",
+          "role": "link",
+          "name": "274 comments",
+          "href": "item?id=50105635",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50105635"
+          }
+        },
+        "172": {
+          "ref_id": 172,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50099121&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50099121",
+            "href": "vote?id=50099121&how=up&goto=news"
+          }
+        },
+        "173": {
+          "ref_id": 173,
+          "tag": "a",
+          "role": "link",
+          "name": "An Apology",
+          "href": "https://www.elevationlab.com/blogs/news/an-apology",
+          "type": "",
+          "attrs": {
+            "href": "https://www.elevationlab.com/blogs/news/an-apology"
+          }
+        },
+        "174": {
+          "ref_id": 174,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=elevationlab.com",
+          "type": "",
+          "attrs": {
+            "href": "from?site=elevationlab.com"
+          }
+        },
+        "175": {
+          "ref_id": 175,
+          "tag": "a",
+          "role": "link",
+          "name": "cdrnsf",
+          "href": "user?id=cdrnsf",
+          "type": "",
+          "attrs": {
+            "href": "user?id=cdrnsf",
+            "class": "hnuser"
+          }
+        },
+        "176": {
+          "ref_id": 176,
+          "tag": "a",
+          "role": "link",
+          "name": "10 hours ago",
+          "href": "item?id=50099121",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50099121"
+          }
+        },
+        "177": {
+          "ref_id": 177,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50099121&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50099121&goto=news"
+          }
+        },
+        "178": {
+          "ref_id": 178,
+          "tag": "a",
+          "role": "link",
+          "name": "119 comments",
+          "href": "item?id=50099121",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50099121"
+          }
+        },
+        "179": {
+          "ref_id": 179,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50099136&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50099136",
+            "href": "vote?id=50099136&how=up&goto=news"
+          }
+        },
+        "180": {
+          "ref_id": 180,
+          "tag": "a",
+          "role": "link",
+          "name": "Show HN: Flipflop \u2013 Iroh-powered persistent tunnels for filesharing",
+          "href": "https://github.com/andunieee/flipflop",
+          "type": "",
+          "attrs": {
+            "href": "https://github.com/andunieee/flipflop"
+          }
+        },
+        "181": {
+          "ref_id": 181,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=github.com/andunieee",
+          "type": "",
+          "attrs": {
+            "href": "from?site=github.com/andunieee"
+          }
+        },
+        "182": {
+          "ref_id": 182,
+          "tag": "a",
+          "role": "link",
+          "name": "andunie",
+          "href": "user?id=andunie",
+          "type": "",
+          "attrs": {
+            "href": "user?id=andunie",
+            "class": "hnuser"
+          }
+        },
+        "183": {
+          "ref_id": 183,
+          "tag": "a",
+          "role": "link",
+          "name": "13 hours ago",
+          "href": "item?id=50099136",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50099136"
+          }
+        },
+        "184": {
+          "ref_id": 184,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50099136&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50099136&goto=news"
+          }
+        },
+        "185": {
+          "ref_id": 185,
+          "tag": "a",
+          "role": "link",
+          "name": "60 comments",
+          "href": "item?id=50099136",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50099136"
+          }
+        },
+        "186": {
+          "ref_id": 186,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50070625&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50070625",
+            "href": "vote?id=50070625&how=up&goto=news"
+          }
+        },
+        "187": {
+          "ref_id": 187,
+          "tag": "a",
+          "role": "link",
+          "name": "Wanted to download an ISO, ended up writing a kernel exploit",
+          "href": "https://blog.dfb.sh/blog/eap770-root-for-two-zeros/",
+          "type": "",
+          "attrs": {
+            "href": "https://blog.dfb.sh/blog/eap770-root-for-two-zeros/"
+          }
+        },
+        "188": {
+          "ref_id": 188,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=dfb.sh",
+          "type": "",
+          "attrs": {
+            "href": "from?site=dfb.sh"
+          }
+        },
+        "189": {
+          "ref_id": 189,
+          "tag": "a",
+          "role": "link",
+          "name": "0xdeafbeef",
+          "href": "user?id=0xdeafbeef",
+          "type": "",
+          "attrs": {
+            "href": "user?id=0xdeafbeef",
+            "class": "hnuser"
+          }
+        },
+        "190": {
+          "ref_id": 190,
+          "tag": "a",
+          "role": "link",
+          "name": "17 hours ago",
+          "href": "item?id=50070625",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50070625"
+          }
+        },
+        "191": {
+          "ref_id": 191,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50070625&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50070625&goto=news"
+          }
+        },
+        "192": {
+          "ref_id": 192,
+          "tag": "a",
+          "role": "link",
+          "name": "171 comments",
+          "href": "item?id=50070625",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50070625"
+          }
+        },
+        "193": {
+          "ref_id": 193,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50104654&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50104654",
+            "href": "vote?id=50104654&how=up&goto=news"
+          }
+        },
+        "194": {
+          "ref_id": 194,
+          "tag": "a",
+          "role": "link",
+          "name": "Simons Foundation launches $15M effort to help mathematicians navigate AI era",
+          "href": "https://www.simonsfoundation.org/news/simons-foundation-launches-15m-effort-to-help-mathematicians-navigate-ai-era/",
+          "type": "",
+          "attrs": {
+            "href": "https://www.simonsfoundation.org/news/simons-foundation-launches-15m-effort-to-help-mathematicians-navigate-ai-era/"
+          }
+        },
+        "195": {
+          "ref_id": 195,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=simonsfoundation.org",
+          "type": "",
+          "attrs": {
+            "href": "from?site=simonsfoundation.org"
+          }
+        },
+        "196": {
+          "ref_id": 196,
+          "tag": "a",
+          "role": "link",
+          "name": "aaraujo002",
+          "href": "user?id=aaraujo002",
+          "type": "",
+          "attrs": {
+            "href": "user?id=aaraujo002",
+            "class": "hnuser"
+          }
+        },
+        "197": {
+          "ref_id": 197,
+          "tag": "a",
+          "role": "link",
+          "name": "9 hours ago",
+          "href": "item?id=50104654",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50104654"
+          }
+        },
+        "198": {
+          "ref_id": 198,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50104654&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50104654&goto=news"
+          }
+        },
+        "199": {
+          "ref_id": 199,
+          "tag": "a",
+          "role": "link",
+          "name": "182 comments",
+          "href": "item?id=50104654",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50104654"
+          }
+        },
+        "200": {
+          "ref_id": 200,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50105467&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50105467",
+            "href": "vote?id=50105467&how=up&goto=news"
+          }
+        },
+        "201": {
+          "ref_id": 201,
+          "tag": "a",
+          "role": "link",
+          "name": "Show HN: Proa \u2013 A Rust web framework with fast SSR and multi-target rendering",
+          "href": "https://proa.so/",
+          "type": "",
+          "attrs": {
+            "href": "https://proa.so/"
+          }
+        },
+        "202": {
+          "ref_id": 202,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=proa.so",
+          "type": "",
+          "attrs": {
+            "href": "from?site=proa.so"
+          }
+        },
+        "203": {
+          "ref_id": 203,
+          "tag": "a",
+          "role": "link",
+          "name": "burnrate",
+          "href": "user?id=burnrate",
+          "type": "",
+          "attrs": {
+            "href": "user?id=burnrate",
+            "class": "hnuser"
+          }
+        },
+        "204": {
+          "ref_id": 204,
+          "tag": "a",
+          "role": "link",
+          "name": "8 hours ago",
+          "href": "item?id=50105467",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50105467"
+          }
+        },
+        "205": {
+          "ref_id": 205,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50105467&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50105467&goto=news"
+          }
+        },
+        "206": {
+          "ref_id": 206,
+          "tag": "a",
+          "role": "link",
+          "name": "25 comments",
+          "href": "item?id=50105467",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50105467"
+          }
+        },
+        "207": {
+          "ref_id": 207,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50103164&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50103164",
+            "href": "vote?id=50103164&how=up&goto=news"
+          }
+        },
+        "208": {
+          "ref_id": 208,
+          "tag": "a",
+          "role": "link",
+          "name": "C++26 Contracts: Introduction to Preconditions and Postconditions",
+          "href": "https://www.cppstories.com/2026/cpp26_contracts/",
+          "type": "",
+          "attrs": {
+            "href": "https://www.cppstories.com/2026/cpp26_contracts/"
+          }
+        },
+        "209": {
+          "ref_id": 209,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=cppstories.com",
+          "type": "",
+          "attrs": {
+            "href": "from?site=cppstories.com"
+          }
+        },
+        "210": {
+          "ref_id": 210,
+          "tag": "a",
+          "role": "link",
+          "name": "ibobev",
+          "href": "user?id=ibobev",
+          "type": "",
+          "attrs": {
+            "href": "user?id=ibobev",
+            "class": "hnuser"
+          }
+        },
+        "211": {
+          "ref_id": 211,
+          "tag": "a",
+          "role": "link",
+          "name": "11 hours ago",
+          "href": "item?id=50103164",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50103164"
+          }
+        },
+        "212": {
+          "ref_id": 212,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50103164&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50103164&goto=news"
+          }
+        },
+        "213": {
+          "ref_id": 213,
+          "tag": "a",
+          "role": "link",
+          "name": "114 comments",
+          "href": "item?id=50103164",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50103164"
+          }
+        },
+        "214": {
+          "ref_id": 214,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "vote?id=50103630&how=up&goto=news",
+          "type": "",
+          "attrs": {
+            "id": "up_50103630",
+            "href": "vote?id=50103630&how=up&goto=news"
+          }
+        },
+        "215": {
+          "ref_id": 215,
+          "tag": "a",
+          "role": "link",
+          "name": "I know why the mathematicians weep",
+          "href": "https://www.derekthompson.org/p/i-know-why-the-mathematicians-weep",
+          "type": "",
+          "attrs": {
+            "href": "https://www.derekthompson.org/p/i-know-why-the-mathematicians-weep"
+          }
+        },
+        "216": {
+          "ref_id": 216,
+          "tag": "a",
+          "role": "link",
+          "name": "",
+          "href": "from?site=derekthompson.org",
+          "type": "",
+          "attrs": {
+            "href": "from?site=derekthompson.org"
+          }
+        },
+        "217": {
+          "ref_id": 217,
+          "tag": "a",
+          "role": "link",
+          "name": "RickJWagner",
+          "href": "user?id=RickJWagner",
+          "type": "",
+          "attrs": {
+            "href": "user?id=RickJWagner",
+            "class": "hnuser"
+          }
+        },
+        "218": {
+          "ref_id": 218,
+          "tag": "a",
+          "role": "link",
+          "name": "10 hours ago",
+          "href": "item?id=50103630",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50103630"
+          }
+        },
+        "219": {
+          "ref_id": 219,
+          "tag": "a",
+          "role": "link",
+          "name": "hide",
+          "href": "hide?id=50103630&goto=news",
+          "type": "",
+          "attrs": {
+            "href": "hide?id=50103630&goto=news"
+          }
+        },
+        "220": {
+          "ref_id": 220,
+          "tag": "a",
+          "role": "link",
+          "name": "553 comments",
+          "href": "item?id=50103630",
+          "type": "",
+          "attrs": {
+            "href": "item?id=50103630"
+          }
+        },
+        "221": {
+          "ref_id": 221,
+          "tag": "a",
+          "role": "link",
+          "name": "More",
+          "href": "?p=2",
+          "type": "",
+          "attrs": {
+            "href": "?p=2",
+            "class": "morelink",
+            "rel": "next"
+          }
+        },
+        "222": {
+          "ref_id": 222,
+          "tag": "a",
+          "role": "link",
+          "name": "Consider applying for YC's Winter 2027 batch!",
+          "href": "https://www.ycombinator.com/apply/",
+          "type": "",
+          "attrs": {
+            "href": "https://www.ycombinator.com/apply/"
+          }
+        },
+        "223": {
+          "ref_id": 223,
+          "tag": "a",
+          "role": "link",
+          "name": "Guidelines",
+          "href": "newsguidelines.html",
+          "type": "",
+          "attrs": {
+            "href": "newsguidelines.html"
+          }
+        },
+        "224": {
+          "ref_id": 224,
+          "tag": "a",
+          "role": "link",
+          "name": "FAQ",
+          "href": "newsfaq.html",
+          "type": "",
+          "attrs": {
+            "href": "newsfaq.html"
+          }
+        },
+        "225": {
+          "ref_id": 225,
+          "tag": "a",
+          "role": "link",
+          "name": "Lists",
+          "href": "lists",
+          "type": "",
+          "attrs": {
+            "href": "lists"
+          }
+        },
+        "226": {
+          "ref_id": 226,
+          "tag": "a",
+          "role": "link",
+          "name": "API",
+          "href": "https://github.com/HackerNews/API",
+          "type": "",
+          "attrs": {
+            "href": "https://github.com/HackerNews/API"
+          }
+        },
+        "227": {
+          "ref_id": 227,
+          "tag": "a",
+          "role": "link",
+          "name": "Security",
+          "href": "security.html",
+          "type": "",
+          "attrs": {
+            "href": "security.html"
+          }
+        },
+        "228": {
+          "ref_id": 228,
+          "tag": "a",
+          "role": "link",
+          "name": "Legal",
+          "href": "https://www.ycombinator.com/legal/",
+          "type": "",
+          "attrs": {
+            "href": "https://www.ycombinator.com/legal/"
+          }
+        },
+        "229": {
+          "ref_id": 229,
+          "tag": "a",
+          "role": "link",
+          "name": "Apply to YC",
+          "href": "https://www.ycombinator.com/apply/",
+          "type": "",
+          "attrs": {
+            "href": "https://www.ycombinator.com/apply/"
+          }
+        },
+        "230": {
+          "ref_id": 230,
+          "tag": "a",
+          "role": "link",
+          "name": "Contact",
+          "href": "mailto:hn@ycombinator.com",
+          "type": "",
+          "attrs": {
+            "href": "mailto:hn@ycombinator.com"
+          }
+        },
+        "231": {
+          "ref_id": 231,
+          "tag": "input",
+          "role": "textbox",
+          "name": "",
+          "href": "",
+          "type": "text",
+          "attrs": {
+            "type": "text",
+            "name": "q",
+            "size": "17",
+            "autocorrect": "off",
+            "spellcheck": "false",
+            "autocapitalize": "off",
+            "autocomplete": "off"
+          }
+        }
+      },
+      "ref_count": 231,
+      "compact_tree": "    \"Hacker News\"\n    [table \"hnmain\"]\n      [tr]\n        [td]\n          [table]\n            [tr]\n            [td]\n            [td]\n            [link #2 \"Hacker News\" href=\"news\"]\n            [link #3 \"new\" href=\"newest\"]\n            [link #4 \"past\" href=\"front\"]\n            [link #5 \"comments\" href=\"newcomments\"]\n            [link #6 \"ask\" href=\"ask\"]\n            [link #7 \"show\" href=\"show\"]\n            [link #8 \"jobs\" href=\"jobs\"]\n            [link #9 \"submit\" href=\"submit\"]\n            [td]\n            [link #10 \"login\" href=\"login?goto=news\"]\n      [tr]\n      [tr \"bigbox\"]\n        [td]\n          [table]\n            [tr \"50107379\"]\n            [td]\n            [td]\n            [td]\n            [link #12 \"Muse Spark Open\" href=\"https://research.meta.ai/blog/muse-spark-open\"]\n            \"meta.ai\"\n            [tr]\n            [td]\n            [td]\n            \"586 points\"\n            [link #14 \"bigwheels\" href=\"user?id=bigwheels\"]\n            [link #15 \"6 hours ago\" href=\"item?id=50107379\"]\n            [link #16 \"hide\" href=\"hide?id=50107379&goto=news\"]\n  ... [482 more nodes pruned]"
+    }
+  }
+]

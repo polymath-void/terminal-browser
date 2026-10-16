@@ -20,6 +20,10 @@ impl ProcessSupervisor {
         }
     }
 
+    pub fn max_memory_mb(&self) -> u64 {
+        self.max_memory_mb
+    }
+
     pub async fn spawn_engine(&mut self, binary_path: &str, args: &[&str]) -> anyhow::Result<()> {
         let child = Command::new(binary_path)
             .args(args)
@@ -55,10 +59,7 @@ impl ProcessSupervisor {
 
     pub fn is_alive(&mut self) -> bool {
         if let Some(ref mut child) = self.child {
-            match child.try_wait() {
-                Ok(None) => true,
-                _ => false,
-            }
+            matches!(child.try_wait(), Ok(None))
         } else {
             false
         }

@@ -80,8 +80,13 @@ async fn main() -> anyhow::Result<()> {
         Some(Commands::Daemon) => {
             println!("🌐 Running background browser daemon on IPC socket: {}", term_ipc::get_socket_path());
         }
-        Some(Commands::Tui { url }) | None => {
-            let target_url = url.or(cli.url).unwrap_or_else(|| "https://news.ycombinator.com".to_string());
+        Some(Commands::Tui { url }) => {
+            let target_url = url.unwrap_or_else(|| "https://news.ycombinator.com".to_string());
+            println!("🖥️ Starting Terminal Web Browser for URL: {}", target_url);
+            println!("Hint: Run with `fetch <url>` for <50ms Markdown retrieval or `mcp` for agent control.");
+        }
+        None => {
+            let target_url = cli.url.unwrap_or_else(|| "https://news.ycombinator.com".to_string());
             println!("🖥️ Starting Terminal Web Browser for URL: {}", target_url);
             println!("Hint: Run with `fetch <url>` for <50ms Markdown retrieval or `mcp` for agent control.");
         }

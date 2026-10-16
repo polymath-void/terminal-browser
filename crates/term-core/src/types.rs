@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
 /// Accessibility Tree Node
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct AXNode {
     pub ref_id: Option<u32>,
     pub backend_node_id: Option<u32>,
@@ -18,13 +18,13 @@ pub struct AXNode {
 }
 
 /// Stable Reference Registry mapping sequential u32 IDs to DOM elements
-#[derive(Debug, Clone, Default)]
+#[derive(Debug, Clone, Default, PartialEq)]
 pub struct RefMap {
     inner: HashMap<u32, AXNodeHandle>,
     next_id: u32,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct AXNodeHandle {
     pub backend_node_id: u32,
     pub role: String,
@@ -72,7 +72,7 @@ impl RefMap {
 }
 
 /// Unified Async Event Enum for central application loop
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum AppEvent {
     TermInput(crossterm::event::Event),
     PageNavigated { url: String, status: u16 },
@@ -94,7 +94,7 @@ pub enum ChallengeType {
 }
 
 /// Agent Action Directives (MCP -> Engine)
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct AgentAction {
     pub action_type: ActionType,
     pub ref_id: Option<u32>,
@@ -115,7 +115,7 @@ pub enum ActionType {
     Navigate,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
 pub struct ActionPayload {
     pub text: Option<String>,
     pub key: Option<String>,
@@ -135,7 +135,7 @@ pub enum ScrollDirection {
 }
 
 /// Serializable Page Snapshot representation
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct PageSnapshot {
     pub url: String,
     pub title: Option<String>,
@@ -161,7 +161,7 @@ pub enum SnapshotSource {
 }
 
 /// Session Profile definition
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct SessionProfile {
     pub profile_id: String,
     pub user_agent: String,
