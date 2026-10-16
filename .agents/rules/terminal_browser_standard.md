@@ -29,7 +29,11 @@ Whenever the USER or AGENT needs to browse the web, retrieve web page contents, 
      - `browser_act(ref_id, action="submit")`
    - **Security Gate Compliance**: High-stakes destructive actions (e.g., delete account, submit payment) require explicit `force=true` or user confirmation in TUI.
 
-4. **Human-in-the-Loop Headed Detach:**
-   - If an authentication challenge (Cloudflare Turnstile, CAPTCHA, bank 2FA) is encountered, invoke:
-     `tb act --action detach_headed`
-   - This seamlessly projects the current Chromium target into a visible window without losing session cookies or restarting the tab. Once solved, cookies auto-sync back to the SQLite vault.
+4. **Environment-Aware Headed Detach (Human-in-the-Loop):**
+   - If an authentication challenge (Cloudflare Turnstile, CAPTCHA, bank 2FA) or visual verification is encountered, invoke `tb open "<url>"` or `tb act --action detach_headed "<url>"`.
+   - The launcher dispatches strictly based on the active runtime environment:
+     - **Android Termux Environment**: ONLY use `termux-open-url "<url>"` (fallback `termux-open "<url>"`). Never attempt desktop browser commands or `xdg-open` in Termux.
+     - **PC Windows Environment**: Use `cmd.exe /c start "" "<url>"` or `powershell Start-Process "<url>"`.
+     - **Desktop Linux Environment**: Use `xdg-open "<url>"`.
+     - **macOS Environment**: Use `open "<url>"`.
+   - Once the human completes the interactive challenge in their native browser, session cookies auto-sync back to the SQLite vault and headless execution resumes.

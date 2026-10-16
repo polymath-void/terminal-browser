@@ -43,7 +43,13 @@ async fn main() -> anyhow::Result<()> {
 
     match first {
         "fetch" => {
-            let target_url = second.unwrap_or("https://news.ycombinator.com");
+            let target_url = match second {
+                Some(url) => url,
+                None => {
+                    eprintln!("❌ Error: URL required for 'fetch'. Usage: tb fetch <URL>");
+                    return Ok(());
+                }
+            };
             let norm_url = normalize_url(target_url);
             println!("🚀 Fast-fetching URL: {}", norm_url);
             let client = FastPathClient::new(None);
@@ -85,28 +91,53 @@ async fn main() -> anyhow::Result<()> {
         "daemon" => {
             println!("🌐 Running background browser daemon on IPC socket: {}", term_ipc::get_socket_path());
         }
-        "tui" => {
-            let target_url = second.unwrap_or("https://news.ycombinator.com");
+        "open" | "detach" => {
+            let target_url = match second {
+                Some(url) => url,
+                None => {
+                    eprintln!("❌ Error: URL required for 'open' / 'detach'. Usage: tb open <URL>");
+                    return Ok(());
+                }
+            };
             let norm_url = normalize_url(target_url);
+            println!("🌐 Launching external headed browser for: {}", norm_url);
+            term_engine::detach_headed(&norm_url).await?;
+        }
+        "act" => {
+            let target_url = match second {
+                Some(url) => url,
+                None => {
+                    eprintln!("❌ Error: URL required for 'act'. Usage: tb act <URL>");
+                    return Ok(());
+                }
+            };
+            let norm_url = normalize_url(target_url);
+            println!("🌐 Executing headed browser detach for: {}", norm_url);
+            term_engine::detach_headed(&norm_url).await?;
+        }
+        "tui" => {
             let mut app = TuiApp::new();
-            let _ = app.load_url(&norm_url).await;
+            if let Some(target_url) = second {
+                let norm_url = normalize_url(target_url);
+                let _ = app.load_url(&norm_url).await;
+            } else {
+                app.load_markdown_content(
+                    "about:home",
+                    "# Terminal Web Browser (tb)\n\nWelcome to **Terminal Browser**.\n\n### Navigation:\n- Press `/` to enter URL or search\n- Press `f` for link hints\n- Press `q` to quit\n\n### Quick Start:\nRun `tb <url>` to browse a website directly.",
+                );
+            }
             app.run_interactive().await?;
         }
         "" => {
-            // Default: no args -> launch TUI with Hacker News
-            let target_url = "https://news.ycombinator.com";
             let mut app = TuiApp::new();
-            let _ = app.load_url(target_url).await;
+            app.load_markdown_content(
+                "about:home",
+                "# Terminal Web Browser (tb)\n\nWelcome to **Terminal Browser**.\n\n### Navigation:\n- Press `/` to enter URL or search\n- Press `f` for link hints\n- Press `q` to quit\n\n### Quick Start:\nRun `tb <url>` to browse a website directly.",
+            );
             app.run_interactive().await?;
         }
         url_candidate => {
-            // Check if second is "tui" or if first is a direct URL
-            let target_url = if url_candidate == "tui" {
-                second.unwrap_or("https://news.ycombinator.com")
-            } else {
-                url_candidate
-            };
-            let norm_url = normalize_url(target_url);
+            let norm_url = normalize_url(url_candidate);
             let mut app = TuiApp::new();
             let _ = app.load_url(&norm_url).await;
             app.run_interactive().await?;

@@ -122,11 +122,15 @@ When running `tb tui <url>`:
 
 ---
 
-## 5. Human-in-the-Loop Detach (CAPTCHA / 2FA Handling)
+## 5. Environment-Aware Headed Detach (Human-in-the-Loop)
 
 If a target website issues a Cloudflare Turnstile, CAPTCHA challenge, or bank login prompt:
-1. The agent or user triggers `detach_headed`.
-2. Chromium immediately opens a visible platform window (`msedge` on Windows, `google-chrome` on Linux/macOS) bound to the current session target ID.
+1. The agent or user triggers `tb open <url>`, `tb detach <url>`, or MCP tool `detach_headed`.
+2. The launcher automatically detects the active host environment and dispatches the native command:
+   - **Android Termux**: ONLY invokes `termux-open-url <url>` (or fallback `termux-open <url>`) to project the page directly into the default Android browser. Never attempts desktop browser binaries or `xdg-open` in Termux.
+   - **Windows PC**: Invokes `cmd /c start "" <url>` (or `powershell Start-Process <url>`).
+   - **Desktop Linux**: Invokes `xdg-open <url>`.
+   - **macOS**: Invokes `open <url>`.
 3. The human completes the interactive challenge.
 4. Updated cookies are automatically synced back into the SQLite `cookies` table, and the headless session resumes.
 

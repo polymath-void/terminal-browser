@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/data/data/com.termux/files/usr/bin/env python3
 """
 fast_agent_browser.py - High-speed agent content negotiator and CDP launcher.
 

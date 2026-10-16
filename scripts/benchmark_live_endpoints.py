@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/data/data/com.termux/files/usr/bin/env python3
 """
 benchmark_live_endpoints.py - Automated Engine Benchmark & Protocol Validation Suite.
 

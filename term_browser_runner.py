@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/data/data/com.termux/files/usr/bin/env python3
 """
 term_browser_runner.py - Complete Terminal Web Browser Prototype & Test Runner.
 
@@ -11,12 +11,48 @@ Demonstrates all core architecture features:
 """
 
 import sys
+import os
+import subprocess
 import time
 import json
 import urllib.request
 import urllib.parse
 from html.parser import HTMLParser
 from typing import Dict, Any, List, Optional, Tuple
+
+def open_headed_url(url: str):
+    """
+    Opens the URL strictly according to the runtime platform:
+    - Termux (Android): ONLY termux-open-url (fallback termux-open). Never xdg-open.
+    - Windows PC: os.startfile(url) or cmd.exe /c start "" url
+    - Desktop Linux: xdg-open url
+    - macOS: open url
+    """
+    is_termux = (
+        bool(os.environ.get("TERMUX_VERSION"))
+        or "com.termux" in os.environ.get("PREFIX", "")
+        or (hasattr(os, "uname") and "android" in os.uname().release.lower())
+    )
+    if is_termux:
+        print(f"📱 Detected Termux environment. Calling termux-open-url: {url}")
+        try:
+            subprocess.run(["termux-open-url", url], check=True)
+        except Exception:
+            subprocess.run(["termux-open", url], check=False)
+        return
+
+    if sys.platform == "win32":
+        print(f"💻 Detected Windows PC environment. Calling start: {url}")
+        if hasattr(os, "startfile"):
+            os.startfile(url)
+        else:
+            subprocess.run(["cmd.exe", "/c", "start", "", url], check=False)
+    elif sys.platform == "darwin":
+        print(f"🍎 Detected macOS environment. Calling open: {url}")
+        subprocess.run(["open", url], check=False)
+    else:
+        print(f"🐧 Detected Linux Desktop environment. Calling xdg-open: {url}")
+        subprocess.run(["xdg-open", url], check=False)
 
 # Ensure safe UTF-8 output across Windows and Unix consoles
 if hasattr(sys.stdout, "reconfigure"):
@@ -288,7 +324,25 @@ def run_cli():
     print("  High-Performance Semantic Engine, Fast-Path & AXTree Reduction")
     print("=" * 76)
 
-    target_url = sys.argv[1] if len(sys.argv) > 1 else "https://news.ycombinator.com"
+    if len(sys.argv) <= 1:
+        print("Usage: tb-fast <url> | tb-fast open <url>")
+        print("Example: tb-fast https://docs.anthropic.com")
+        print("=" * 76)
+        return {"source": "help"}
+
+    arg1 = sys.argv[1]
+    if arg1 in ("open", "detach", "act"):
+        if len(sys.argv) <= 2:
+            print("❌ Error: Target URL required for open/detach. Usage: tb-fast open <url>")
+            print("=" * 76)
+            return {"source": "error", "error": "Missing URL"}
+        target_url = sys.argv[2]
+        print(f"\n[1] External Headed Browser Detach requested for: {target_url}")
+        open_headed_url(target_url)
+        print("=" * 76)
+        return {"source": "detach_headed", "url": target_url}
+
+    target_url = arg1
     engine = TerminalBrowserEngine()
 
     print(f"\n[1] Target URL: {target_url}")
