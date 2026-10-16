@@ -38,10 +38,51 @@ Unlike legacy text-only browsers (Lynx, w3m) or downsampled pixel streamers (Bro
 | **SEC-8** | Security & Safety Engineer | `term-mcp::security`, `term-engine::sanitizer` | [tb-sec8-safety-engineer](.agents/skills/tb-sec8-safety-engineer/SKILL.md) |
 | **QA-9** | Test & Integration Engineer | `tests/`, `.github/workflows/` | [tb-qa9-test-engineer](.agents/skills/tb-qa9-test-engineer/SKILL.md) |
 
-## Integrated Agent Skills & Scripts
+## Quick Installation
 
-- [Semantic Web Browsing Skill](.agents/skills/semantic-web-browsing/SKILL.md): Agent runbook for token-efficient AXTree extraction, noise filtering, and MCP browser control.
+Install the native binary and automatically provision the Antigravity agent skills & rules:
+
+### Windows (PowerShell)
+```powershell
+.\install.ps1
+```
+
+### Linux / macOS / Android Termux (Bash)
+```bash
+./install.sh
+```
+
+The installer compiles the release binary and links `tb`, `term-browser`, and `terminal-browser` directly into your system `PATH` (`~/.cargo/bin` and Scoop shims), while installing the Antigravity skill and rule.
+
+---
+
+## CLI Usage
+
+Run directly from any terminal without `cargo`:
+
+```powershell
+# 1. Fast-Path /llms.txt and Markdown Retrieval (<500ms)
+tb fetch https://docs.anthropic.com/llms.txt
+
+# 2. Interactive 60 FPS Terminal Browser
+tb tui https://news.ycombinator.com
+
+# 3. Embedded Model Context Protocol (MCP) Server for Agents
+tb mcp
+
+# 4. Background Browser Daemon
+tb daemon
+```
+
+---
+
+## Agent Skills & System Rules
+
+- **Terminal Browser Skill**: [terminal-browser](.agents/skills/terminal-browser/SKILL.md) (provisioned to `~/.gemini/config/skills/terminal-browser/SKILL.md`)
+- **Autonomous Operation Rule**: [terminal_browser_standard.md](.agents/rules/terminal_browser_standard.md) (provisioned to `~/.gemini/config/rules/terminal_browser_standard.md`)
+- [Semantic Web Browsing Skill](.agents/skills/semantic-web-browsing/SKILL.md): Token-efficient AXTree extraction, noise filtering, and MCP browser control.
   - [MCP Browser Schema](.agents/skills/semantic-web-browsing/references/mcp_browser_schema.json)
   - [AXTree Snapshot Example](.agents/skills/semantic-web-browsing/examples/axtree_example.md)
   - [AXTree Extraction Script](.agents/skills/semantic-web-browsing/scripts/extract_axtree.py)
   - [Fast Agent Browser & Content Negotiator](scripts/fast_agent_browser.py)
+
