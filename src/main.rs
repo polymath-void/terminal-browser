@@ -37,6 +37,18 @@ struct Cli {
     #[arg(long, short = 'p')]
     pass: Option<String>,
 
+    /// File path to upload
+    #[arg(long)]
+    file: Option<String>,
+
+    /// Output destination file path for download
+    #[arg(long, short = 'o')]
+    out: Option<String>,
+
+    /// Multipart field name for file upload (default: "file")
+    #[arg(long, default_value = "file")]
+    field: String,
+
     /// Launch interactive 60 FPS TUI browser
     #[arg(long, short = 't')]
     tui: bool,
@@ -220,6 +232,68 @@ async fn main() -> anyhow::Result<()> {
         }
         "daemon" => {
             println!("🌐 Running background browser daemon on IPC socket: {}", term_ipc::get_socket_path());
+        }
+        "download" => {
+            let target_url = match second {
+                Some(url) => url,
+                None => {
+                    eprintln!("❌ Error: URL required for 'download'. Usage: tb download <URL> [--out <PATH>]");
+                    return Ok(());
+                }
+            };
+            let norm_url = normalize_url(target_url);
+            println!("📥 Downloading from: {}", norm_url);
+            let client = FastPathClient::new(None);
+            let out_path = cli.out.as_deref().map(std::path::Path::new);
+            let start = std::time::Instant::now();
+            match client.download_file(&norm_url, out_path).await {
+                Ok((saved_path, byte_count, status)) => {
+                    let elapsed = start.elapsed();
+                    println!("✅ Downloaded {} bytes in {:.2?} (HTTP {})", byte_count, elapsed, status);
+                    println!("💾 Saved to: {}", saved_path.display());
+                }
+                Err(e) => {
+                    eprintln!("❌ Download failed: {}", e);
+                }
+            }
+        }
+        "upload" => {
+            let target_url = match second {
+                Some(url) => url,
+                None => {
+                    eprintln!("❌ Error: URL required for 'upload'. Usage: tb upload <URL> --file <PATH>");
+                    return Ok(());
+                }
+            };
+            let file_arg = match cli.file.as_deref().or(cli.third.as_deref()) {
+                Some(f) => f,
+                None => {
+                    eprintln!("❌ Error: File path required for 'upload'. Usage: tb upload <URL> --file <PATH>");
+                    return Ok(());
+                }
+            };
+            let norm_url = normalize_url(target_url);
+            let file_path = std::path::Path::new(file_arg);
+            if !file_path.exists() {
+                eprintln!("❌ Error: Specified file does not exist: {}", file_path.display());
+                return Ok(());
+            }
+
+            println!("📤 Uploading file: {} -> {}", file_path.display(), norm_url);
+            let client = FastPathClient::new(None);
+            let start = std::time::Instant::now();
+            match client.upload_file(&norm_url, file_path, Some(&cli.field)).await {
+                Ok((content, status)) => {
+                    let elapsed = start.elapsed();
+                    println!("✅ Upload complete in {:.2?} (HTTP {})", elapsed, status);
+                    println!("\n--- Server Response Preview ---\n");
+                    let preview: String = content.lines().take(20).collect::<Vec<_>>().join("\n");
+                    println!("{}", preview);
+                }
+                Err(e) => {
+                    eprintln!("❌ Upload failed: {}", e);
+                }
+            }
         }
         "open" | "detach" => {
             let target_url = match second {

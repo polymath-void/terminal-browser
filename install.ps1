@@ -23,7 +23,10 @@ if (-not (Test-Path $CargoBin)) {
 }
 
 # 2. Build Release Binary
-$ReleaseExe = Join-Path $ScriptDir "target\release\terminal-browser.exe"
+$ReleaseExe = Join-Path $ScriptDir "target\release\tb.exe"
+if (-not (Test-Path $ReleaseExe)) {
+    $ReleaseExe = Join-Path $ScriptDir "target\release\terminal-browser.exe"
+}
 if (-not $SkipBuild -or -not (Test-Path $ReleaseExe)) {
     Write-Host ""
     Write-Host "[1/4] Compiling optimized release binary (Fat LTO, stripped)..." -ForegroundColor Yellow

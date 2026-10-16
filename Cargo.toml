@@ -35,10 +35,6 @@ authors.workspace = true
 name = "tb"
 path = "src/main.rs"
 
-[[bin]]
-name = "terminal-browser"
-path = "src/main.rs"
-
 [dependencies]
 term-core = { path = "crates/term-core" }
 term-ipc = { path = "crates/term-ipc" }

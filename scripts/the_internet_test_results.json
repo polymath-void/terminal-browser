@@ -1,0 +1,86 @@
+[
+  {
+    "name": "Root Catalog Discovery",
+    "passed": true,
+    "details": "Extracted full benchmark example catalog",
+    "latency_s": 3.566
+  },
+  {
+    "name": "HTTP Status Codes Handling",
+    "passed": true,
+    "details": "200, 404, and 500 status pages verified",
+    "latency_s": 6.234
+  },
+  {
+    "name": "Redirection Chain (302)",
+    "passed": true,
+    "details": "Followed redirect transparently to /status_codes",
+    "latency_s": 3.038
+  },
+  {
+    "name": "HTTP Basic Auth (401 & 200)",
+    "passed": true,
+    "details": "Unauthenticated blocked (401), admin:admin allowed (200)",
+    "latency_s": 4.252
+  },
+  {
+    "name": "Form Authentication & 303 Redirect",
+    "passed": true,
+    "details": "POST login -> 303 Redirect -> 200 Secure Area with cookie",
+    "latency_s": 1.301
+  },
+  {
+    "name": "Persistent SQLite CookieVault",
+    "passed": true,
+    "details": "Session cookie rack.session active in vault.db",
+    "latency_s": 0.026
+  },
+  {
+    "name": "Authenticated Subsequent Fetch",
+    "passed": true,
+    "details": "Attached SQLite cookie automatically to view Secure Area",
+    "latency_s": 2.06
+  },
+  {
+    "name": "Session Purge & Access Revocation",
+    "passed": true,
+    "details": "Cleared vault cookies; access to /secure immediately blocked",
+    "latency_s": 2.763
+  },
+  {
+    "name": "Data Tables Extraction",
+    "passed": true,
+    "details": "Extracted multi-column tabular records (Names, Emails, Dues)",
+    "latency_s": 3.591
+  },
+  {
+    "name": "Form Controls & Checkboxes",
+    "passed": true,
+    "details": "Parsed checkbox elements and number input forms",
+    "latency_s": 4.131
+  },
+  {
+    "name": "Dynamic Content Sanitization",
+    "passed": true,
+    "details": "Extracted dynamic server content with noise stripped",
+    "latency_s": 3.621
+  },
+  {
+    "name": "Deep & Large DOM Stress Test",
+    "passed": true,
+    "details": "Parsed 50x50 deep nested table (2,500 cells) without memory bloat",
+    "latency_s": 4.529
+  },
+  {
+    "name": "File Download",
+    "passed": true,
+    "details": "Streamed binary file from server with cookie injection",
+    "latency_s": 1.004
+  },
+  {
+    "name": "File Upload (Multipart)",
+    "passed": true,
+    "details": "Submitted multipart/form-data; server confirmed 'File Uploaded!'",
+    "latency_s": 1.684
+  }
+]

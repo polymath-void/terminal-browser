@@ -311,6 +311,79 @@ impl FastPathClient {
         }
         Ok(0)
     }
+
+    /// Downloads a remote file, persisting it to disk while injecting SQLite vault cookies.
+    /// Returns (saved_file_path, byte_count, http_status).
+    pub async fn download_file(
+        &self,
+        target_url: &str,
+        output_path: Option<&std::path::Path>,
+    ) -> anyhow::Result<(std::path::PathBuf, u64, u16)> {
+        let (resp, final_url, _) = self
+            .execute_with_redirects(reqwest::Method::GET, target_url, None, 10)
+            .await?;
+        let status = resp.status().as_u16();
+
+        let save_path = if let Some(out) = output_path {
+            out.to_path_buf()
+        } else {
+            let parsed = Url::parse(&final_url)?;
+            let file_name = parsed
+                .path_segments()
+                .and_then(|mut s| s.next_back())
+                .filter(|s| !s.is_empty())
+                .unwrap_or("downloaded_file.bin");
+            std::path::PathBuf::from(file_name)
+        };
+
+        let bytes = resp.bytes().await?;
+        let byte_count = bytes.len() as u64;
+        tokio::fs::write(&save_path, &bytes).await?;
+        Ok((save_path, byte_count, status))
+    }
+
+    /// Uploads a local file via multipart/form-data (RFC 7578) with cookie injection.
+    /// Returns (sanitized_response_content, http_status).
+    pub async fn upload_file(
+        &self,
+        target_url: &str,
+        file_path: &std::path::Path,
+        field_name: Option<&str>,
+    ) -> anyhow::Result<(String, u16)> {
+        let file_name = file_path
+            .file_name()
+            .and_then(|n| n.to_str())
+            .unwrap_or("file.bin")
+            .to_string();
+        let file_bytes = tokio::fs::read(file_path).await?;
+        let field = field_name.unwrap_or("file");
+
+        let part = reqwest::multipart::Part::bytes(file_bytes).file_name(file_name);
+        let form = reqwest::multipart::Form::new().part(field.to_string(), part);
+
+        let parsed_url = Url::parse(target_url)?;
+        let domain = parsed_url.host_str().unwrap_or("").to_string();
+
+        let mut headers = self.build_headers();
+        if let Some(cookie_hdr) = self.get_cookie_header_for_url(target_url) {
+            if let Ok(hdr_val) = reqwest::header::HeaderValue::from_str(&cookie_hdr) {
+                headers.insert(reqwest::header::COOKIE, hdr_val);
+            }
+        }
+
+        let resp = self
+            .client
+            .post(target_url)
+            .headers(headers)
+            .multipart(form)
+            .send()
+            .await?;
+
+        let status = resp.status().as_u16();
+        let text = resp.text().await?;
+        let sanitized = crate::sanitizer::sanitize_web_text(&text, &domain);
+        Ok((sanitized.content, status))
+    }
 }
 
 #[cfg(test)]

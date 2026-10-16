@@ -18,6 +18,8 @@ Whenever the USER or AGENT needs to browse the web, retrieve web page contents, 
    - **Direct Fetch**: `tb fetch "<url>"` (automatically attaches SQLite vault session cookies for authenticated domains).
    - **Interactive TUI**: `tb tui "<url>"` (launches 60 FPS Ratatui virtual viewport with Vimium keyboard shortcuts).
    - **Authenticated Login**: `tb login "<url>" -u "<username>" -p "<password>"` (submits form, extracts `Set-Cookie`, follows redirects to authenticated dashboard).
+   - **File Download**: `tb download "<url>" [-o <path>]` (streams binary file with cookie injection, saves to disk).
+   - **File Upload**: `tb upload "<url>" --file <path> [--field <name>]` (submits multipart/form-data RFC 7578 with cookie injection).
    - **Session Vault Management**:
      - `tb session list` (inspect active domain cookies stored in SQLite vault).
      - `tb session clear` (purge all session cookies from SQLite vault).
@@ -47,3 +49,7 @@ Whenever the USER or AGENT needs to browse the web, retrieve web page contents, 
    - All session and authentication cookies are stored in SQLite `CookieVault` at `~/.terminal-browser/vault.db`.
    - RFC 6265 domain boundaries and parent domains are strictly respected and automatically matched.
    - Subsequent agent requests to authenticated domains automatically present valid cookies without manual token passing.
+
+6. **Native File Download & Upload Capabilities:**
+   - **Download**: Streams binary/text files directly, follows redirects, preserves cookie identity, and resolves filenames from URL segments or `Content-Disposition`.
+   - **Upload**: Packages local files as streaming multipart payloads (`multipart/form-data`) with custom or default field names and parses server flash notifications.

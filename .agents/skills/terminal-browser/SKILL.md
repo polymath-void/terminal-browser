@@ -1,6 +1,6 @@
 ---
 name: terminal-browser
-description: Operate the native Terminal Browser (tb) for fast-path web content negotiation, 60 FPS TUI browsing, accessibility tree (AXTree) reduction with Ref IDs, embedded Model Context Protocol (MCP) server, SQLite cookie session persistence, and automated form dispatching.
+description: Operate the native Terminal Browser (tb) for fast-path web content negotiation, 60 FPS TUI browsing, accessibility tree (AXTree) reduction with Ref IDs, embedded Model Context Protocol (MCP) server, SQLite cookie session persistence, native file download/upload, and automated form dispatching.
 ---
 
 # Terminal Browser (`tb`): Agent Operating Standard & Skill
@@ -17,6 +17,8 @@ The binary is installed as `tb`, `term-browser`, and `terminal-browser` in syste
 | :--- | :--- | :--- |
 | `tb fetch <url>` | Fast-Path `/llms.txt` and markdown negotiation | **<500ms** direct HTTP fetch; injects SQLite vault cookies |
 | `tb login <url> -u <user> -p <pass>` | Authenticated form submission & cookie storage | Posts credentials, follows 301/302/303, saves cookies in vault |
+| `tb download <url> [-o <path>]` | Native streaming file download | Injects cookies, streams binary/text files, saves to disk |
+| `tb upload <url> --file <path>` | Streaming multipart file upload (RFC 7578) | Uploads files, handles redirects, parses flash responses |
 | `tb session [list\|clear\|test]` | SQLite CookieVault management & live verification | Inspects, purges, or runs automated live session tests |
 | `tb tui [url]` | Interactive 60 FPS Ratatui browser | Full keyboard navigation, Vimium jump hints, Reader Mode |
 | `tb open <url>` / `tb detach <url>` | Environment-aware headed browser detach | Projects page into Termux/Windows/Linux/Mac browser for 2FA |
@@ -50,7 +52,7 @@ Accept-Language: en-US,en;q=0.9
 
 The Terminal Browser includes a built-in persistent **Cookie Vault** powered by SQLite (`~/.terminal-browser/vault.db`):
 
-- **Automatic Cookie Injection**: `tb fetch` and `tb tui` automatically query the vault for domain-matching cookies (RFC 6265 compliant) and attach the `Cookie` header.
+- **Automatic Cookie Injection**: `tb fetch`, `tb download`, and `tb upload` automatically query the vault for domain-matching cookies (RFC 6265 compliant) and attach the `Cookie` header.
 - **Form Login**: `tb login <url> -u <username> -p <password>` submits form data via POST, follows redirect hops (301, 302, 303), captures `Set-Cookie` headers into the vault, and renders the authenticated destination page.
 - **Session Verification**: `tb session test` executes a live end-to-end verification against live endpoints (e.g. `the-internet.herokuapp.com`).
 - **Inspection & Cleanup**:
@@ -64,7 +66,31 @@ The Terminal Browser includes a built-in persistent **Cookie Vault** powered by 
 
 ---
 
-## 4. Model Context Protocol (MCP) Agent Directives
+## 4. Native File Download & Multipart File Upload
+
+### File Download
+Stream and save remote files directly with persistent authentication:
+```powershell
+# Download file to default filename deduced from URL
+tb download https://the-internet.herokuapp.com/download/some-file.txt
+
+# Download file to custom output path
+tb download https://the-internet.herokuapp.com/download/some-file.txt -o ./local_file.txt
+```
+
+### File Upload
+Upload files to forms using standard `multipart/form-data`:
+```powershell
+# Upload local file to target endpoint (default field: "file")
+tb upload https://the-internet.herokuapp.com/upload --file ./sample.txt
+
+# Upload with custom multipart field name
+tb upload https://example.com/api/upload --file ./doc.pdf --field attachment
+```
+
+---
+
+## 5. Model Context Protocol (MCP) Agent Directives
 
 When integrated into agent tool runners, `tb mcp` provides structured tools:
 
@@ -107,7 +133,7 @@ Destructive or financial actions (e.g., clicking `[button #9 "Pay $50"]` or `[li
 
 ---
 
-## 5. Interactive Keyboard Shortcuts (TUI Mode)
+## 6. Interactive Keyboard Shortcuts (TUI Mode)
 
 When running `tb tui <url>`:
 
@@ -121,7 +147,7 @@ When running `tb tui <url>`:
 
 ---
 
-## 6. Environment-Aware Headed Detach (Human-in-the-Loop)
+## 7. Environment-Aware Headed Detach (Human-in-the-Loop)
 
 If a target website issues a Cloudflare Turnstile, CAPTCHA challenge, or bank login prompt:
 1. The agent or user triggers `tb open <url>`, `tb detach <url>`, or MCP tool `detach_headed`.
@@ -135,15 +161,24 @@ If a target website issues a Cloudflare Turnstile, CAPTCHA challenge, or bank lo
 
 ---
 
-## 7. Binary Locations & Health Check
+## 8. Capability Benchmark Matrix (`the-internet.herokuapp.com`)
 
+Run the comprehensive 14-capability automated test suite:
 ```powershell
-# Verify binary is found in PATH
-Get-Command tb, term-browser, terminal-browser
-
-# Run live login and session test
-tb session test
-
-# Fetch authenticated or public web content
-tb fetch https://docs.anthropic.com/llms.txt
+python scripts/test_the_internet_suite.py
 ```
+Outputs live verification of:
+1. Root Catalog Discovery
+2. HTTP Status Codes Handling (200, 301, 404, 500)
+3. Redirection Chain (302 -> Destination)
+4. HTTP Basic Auth (401 vs 200 credentials)
+5. Form Authentication (303 Redirect)
+6. SQLite CookieVault Storage
+7. Subsequent Authenticated Request
+8. Session Purge & Lockout
+9. Data Tables Extraction
+10. Checkboxes & Form Controls
+11. Dynamic Content Extraction
+12. Deep & Large DOM Parsing (50x50 cells)
+13. Native File Download
+14. Multipart File Upload
