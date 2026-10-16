@@ -114,7 +114,35 @@ impl FastPathClient {
         }
         Ok(None)
     }
+
+    /// Fetches page content (either negotiated markdown, /llms.txt, or HTML fallback)
+    pub async fn fetch_page_content(&self, target_url: &str) -> anyhow::Result<(String, u16)> {
+        if let Some((llms, _, status)) = self.probe_llms_txt_timed(target_url).await {
+            return Ok((llms, status));
+        }
+
+        if let Ok(Some((md, _, status))) = self.fetch_negotiated_timed(target_url).await {
+            return Ok((md, status));
+        }
+
+        let resp = self
+            .client
+            .get(target_url)
+            .headers(self.build_headers())
+            .send()
+            .await?;
+        let status = resp.status().as_u16();
+        let text = resp.text().await?;
+        let domain = url::Url::parse(target_url)
+            .ok()
+            .and_then(|u| u.host_str().map(|s| s.to_string()))
+            .unwrap_or_else(|| "unknown".to_string());
+        let sanitized = crate::sanitizer::sanitize_web_text(&text, &domain);
+        Ok((sanitized.content, status))
+    }
 }
+
+
 
 #[cfg(test)]
 mod tests {

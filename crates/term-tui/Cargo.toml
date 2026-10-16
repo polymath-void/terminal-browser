@@ -13,3 +13,4 @@ tokio.workspace = true
 anyhow.workspace = true
 tracing.workspace = true
 unicode-width = "0.2"
+url.workspace = true
