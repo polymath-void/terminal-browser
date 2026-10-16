@@ -26,9 +26,18 @@ url = "2.5"
 
 [package]
 name = "terminal-browser"
+default-run = "tb"
 version.workspace = true
 edition.workspace = true
 authors.workspace = true
+
+[[bin]]
+name = "tb"
+path = "src/main.rs"
+
+[[bin]]
+name = "terminal-browser"
+path = "src/main.rs"
 
 [dependencies]
 term-core = { path = "crates/term-core" }
