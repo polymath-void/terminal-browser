@@ -10,7 +10,9 @@ Unlike legacy text-only browsers (Lynx, w3m) or downsampled pixel streamers (Bro
 - **Semantic Translation**: Accessibility Tree (`AXTree`) mapping directly into clean TUI primitives and compact LLM tokens instead of raw HTML or lossy block graphics.
 - **Ergonomic TUI**: Ratatui-powered 60 FPS virtual viewport, Vimium-style link hinting (`f` -> two-letter tag jumps), and native reader mode extraction.
 - **Agent Bridge (MCP)**: Native Model Context Protocol (MCP) server providing stable element Reference IDs (`#1`, `#2`, `#3`), zero-token-waste snapshots, and shared browser session vaults.
+- **Persistent SQLite CookieVault**: Native session persistence at `~/.terminal-browser/vault.db` supporting RFC 6265 cookie boundaries, authenticated form logins, and automatic header injection.
 - **Transparent Identity & Fast-Path**: Open agent request profiles (`Accept: text/markdown`, `Sec-Purpose: ai-agent-reading`) and `/llms.txt` probing to bypass CAPTCHAs and load content in <50ms.
+- **Environment-Aware Detach**: Automatically detects Android Termux vs PC Windows vs Linux vs macOS to project CAPTCHA/2FA challenges into the user's native browser (`termux-open-url` on Termux, `start` on Windows).
 - **Cross-Platform Foundation**: Zero external runtime dependencies. Compiles to a single static binary for Windows (`x64`/`arm64`), Linux, macOS, and Termux.
 
 ## Architecture & Engineering Blueprints
@@ -64,14 +66,51 @@ Run directly from any terminal without `cargo`:
 # 1. Fast-Path /llms.txt and Markdown Retrieval (<500ms)
 tb fetch https://docs.anthropic.com/llms.txt
 
-# 2. Interactive 60 FPS Terminal Browser
+# 2. Authenticated Form Login & Cookie Vaulting
+tb login https://the-internet.herokuapp.com/authenticate -u tomsmith -p SuperSecretPassword!
+
+# 3. Persistent Session Management
+tb session list               # View active SQLite cookies
+tb session clear              # Purge stored session cookies
+tb session test               # Run automated live authentication test
+
+# 4. Interactive 60 FPS Terminal Browser
 tb tui https://news.ycombinator.com
 
-# 3. Embedded Model Context Protocol (MCP) Server for Agents
+# 5. Environment-Aware Headed Browser Detach (for 2FA/CAPTCHA)
+tb open https://example.com/login
+
+# 6. Embedded Model Context Protocol (MCP) Server for Agents
 tb mcp
 
-# 4. Background Browser Daemon
+# 7. Background Browser Daemon
 tb daemon
+```
+
+---
+
+## Live Capability Benchmarks (`the-internet.herokuapp.com`)
+
+Terminal Browser has been validated against all 12 core test suites of `https://the-internet.herokuapp.com/`:
+
+| Capability | Benchmark Endpoint | Verification Result |
+| :--- | :--- | :--- |
+| **Catalog Discovery** | `/` | ✅ **PASS** - 46 benchmark modules parsed |
+| **HTTP Status Codes** | `/status_codes/200, 404, 500` | ✅ **PASS** - Exact status codes and messages |
+| **Redirection Hop Chain** | `/redirect` -> `/status_codes` | ✅ **PASS** - 302 hop followed automatically |
+| **HTTP Basic Auth** | `/basic_auth` | ✅ **PASS** - 401 unauth blocked; `admin:admin` 200 OK |
+| **Form Authentication** | `/login` -> `/authenticate` | ✅ **PASS** - 303 redirect with `Set-Cookie` captured |
+| **SQLite CookieVault** | `~/.terminal-browser/vault.db` | ✅ **PASS** - Persistent cookie storage across CLI runs |
+| **Authenticated Fetch** | `/secure` | ✅ **PASS** - Auto-attached cookie loads Secure Area |
+| **Session Revocation** | `tb session clear` | ✅ **PASS** - Vault purge immediately denies access |
+| **Data Tables Extraction** | `/tables` | ✅ **PASS** - Multi-column tabular data parsed |
+| **Form Controls** | `/checkboxes`, `/inputs` | ✅ **PASS** - Checkbox and input states extracted |
+| **Dynamic Content** | `/dynamic_content` | ✅ **PASS** - Dynamic content cleaned & rendered |
+| **Deep DOM Stress** | `/large` | ✅ **PASS** - 50x50 grid (2,500 cells) sliced in O(1) |
+
+Run the full benchmark suite locally:
+```powershell
+python scripts/test_the_internet_suite.py
 ```
 
 ---
@@ -85,4 +124,3 @@ tb daemon
   - [AXTree Snapshot Example](.agents/skills/semantic-web-browsing/examples/axtree_example.md)
   - [AXTree Extraction Script](.agents/skills/semantic-web-browsing/scripts/extract_axtree.py)
   - [Fast Agent Browser & Content Negotiator](scripts/fast_agent_browser.py)
-

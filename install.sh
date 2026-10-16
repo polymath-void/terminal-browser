@@ -25,7 +25,10 @@ echo ""
 echo "[1/4] Compiling optimized release binary..."
 RUSTC_WRAPPER="" cargo build --release --manifest-path "$SCRIPT_DIR/Cargo.toml"
 
-RELEASE_BIN="$SCRIPT_DIR/target/release/terminal-browser"
+RELEASE_BIN="$SCRIPT_DIR/target/release/tb"
+if [ ! -f "$RELEASE_BIN" ]; then
+    RELEASE_BIN="$SCRIPT_DIR/target/release/terminal-browser"
+fi
 if [ ! -f "$RELEASE_BIN" ]; then
     echo "Error: Release binary not found at $RELEASE_BIN"
     exit 1

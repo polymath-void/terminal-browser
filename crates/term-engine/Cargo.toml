@@ -6,9 +6,10 @@ authors.workspace = true
 
 [dependencies]
 term-core = { path = "../term-core" }
+term-storage = { path = "../term-storage" }
 chromiumoxide = { version = "0.7", features = ["tokio-runtime"] }
 tokio.workspace = true
-reqwest = { version = "0.12", features = ["gzip", "brotli", "http2"] }
+reqwest = { version = "0.12", features = ["gzip", "brotli", "http2", "multipart", "stream"] }
 anyhow.workspace = true
 tracing.workspace = true
 regex = "1.10"
