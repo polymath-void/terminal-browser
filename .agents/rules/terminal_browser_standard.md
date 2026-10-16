@@ -15,8 +15,13 @@ Whenever the USER or AGENT needs to browse the web, retrieve web page contents, 
      This automatically dispatches transparent agent headers (`User-Agent: TerminalBrowserAgent/1.0`, `Accept: text/markdown, text/plain`) and skips HTML/JS/CSS bloat, eliminating CAPTCHA risk.
 
 2. **Standard CLI Execution Commands:**
-   - **Direct Fetch**: `tb fetch "<url>"` (falls back to CDP if markdown is not directly returned).
+   - **Direct Fetch**: `tb fetch "<url>"` (automatically attaches SQLite vault session cookies for authenticated domains).
    - **Interactive TUI**: `tb tui "<url>"` (launches 60 FPS Ratatui virtual viewport with Vimium keyboard shortcuts).
+   - **Authenticated Login**: `tb login "<url>" -u "<username>" -p "<password>"` (submits form, extracts `Set-Cookie`, follows redirects to authenticated dashboard).
+   - **Session Vault Management**:
+     - `tb session list` (inspect active domain cookies stored in SQLite vault).
+     - `tb session clear` (purge all session cookies from SQLite vault).
+     - `tb session test` (run automated live end-to-end login & session verification).
    - **Model Context Protocol (MCP)**: `tb mcp` (runs embedded MCP server over stdio for agent tool-use).
    - **Background Engine Daemon**: `tb daemon` (listens on IPC named pipe `\\.\pipe\term_browser_ipc` on Windows or Unix socket `/tmp/term_browser.sock` on Linux/Termux).
 
@@ -37,3 +42,8 @@ Whenever the USER or AGENT needs to browse the web, retrieve web page contents, 
      - **Desktop Linux Environment**: Use `xdg-open "<url>"`.
      - **macOS Environment**: Use `open "<url>"`.
    - Once the human completes the interactive challenge in their native browser, session cookies auto-sync back to the SQLite vault and headless execution resumes.
+
+5. **Persistent Cookie Vault & Authenticated Access:**
+   - All session and authentication cookies are stored in SQLite `CookieVault` at `~/.terminal-browser/vault.db`.
+   - RFC 6265 domain boundaries and parent domains are strictly respected and automatically matched.
+   - Subsequent agent requests to authenticated domains automatically present valid cookies without manual token passing.
