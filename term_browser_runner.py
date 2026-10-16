@@ -61,7 +61,7 @@ if hasattr(sys.stdout, "reconfigure"):
     except Exception:
         pass
 
-DEFAULT_USER_AGENT = "TerminalAgent/1.0 (+https://github.com/org/terminal-browser) Chrome/130.0.0.0"
+DEFAULT_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
 
 INTERACTIVE_TAGS = {"a", "button", "input", "select", "textarea"}
 STRUCTURAL_TAGS = {
@@ -215,9 +215,16 @@ class TerminalBrowserEngine:
         self.user_agent = user_agent
         self.headers = {
             "User-Agent": self.user_agent,
-            "Accept": "text/markdown, text/plain;q=0.9, text/html;q=0.5",
-            "Sec-Purpose": "ai-agent-reading",
-            "X-Agent-Protocol": "MCP/1.0",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8,text/markdown;q=0.5",
+            "Accept-Language": "en-US,en;q=0.9",
+            "Sec-Ch-Ua": '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
+            "Sec-Ch-Ua-Mobile": "?0",
+            "Sec-Ch-Ua-Platform": '"Windows"',
+            "Sec-Fetch-Dest": "document",
+            "Sec-Fetch-Mode": "navigate",
+            "Sec-Fetch-Site": "none",
+            "Sec-Fetch-User": "?1",
+            "Upgrade-Insecure-Requests": "1",
             "Connection": "keep-alive"
         }
 
@@ -243,18 +250,19 @@ class TerminalBrowserEngine:
             return None
         return None
 
-    def fast_fetch(self, url: str) -> Dict[str, Any]:
-        # Step 1: Probe /llms.txt discovery
-        llms_res = self.probe_llms_txt(url)
-        if llms_res:
-            return {
-                "source": "llms.txt",
-                "status": llms_res["status"],
-                "latency_ms": llms_res["latency_ms"],
-                "content_type": llms_res["content_type"],
-                "content_length": llms_res["content_length"],
-                "content": llms_res["content"]
-            }
+    def fast_fetch(self, url: str, probe_llms: bool = False) -> Dict[str, Any]:
+        # Step 1: Optional probe /llms.txt discovery
+        if probe_llms:
+            llms_res = self.probe_llms_txt(url)
+            if llms_res:
+                return {
+                    "source": "llms.txt",
+                    "status": llms_res["status"],
+                    "latency_ms": llms_res["latency_ms"],
+                    "content_type": llms_res["content_type"],
+                    "content_length": llms_res["content_length"],
+                    "content": llms_res["content"]
+                }
 
         # Step 2: Content negotiation fetch with Accept headers
         req = urllib.request.Request(url, headers=self.headers)

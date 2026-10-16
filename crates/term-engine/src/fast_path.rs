@@ -2,7 +2,7 @@ use reqwest::header::{HeaderMap, HeaderValue, ACCEPT, CONNECTION, USER_AGENT};
 use url::Url;
 
 pub const DEFAULT_AGENT_USER_AGENT: &str =
-    "TerminalAgent/1.0 (+https://github.com/org/terminal-browser) Chrome/130.0.0.0";
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36";
 
 #[derive(Debug, Clone)]
 pub struct FastPathClient {
@@ -20,7 +20,7 @@ impl FastPathClient {
     pub fn new(user_agent: Option<String>) -> Self {
         let ua = user_agent.unwrap_or_else(|| DEFAULT_AGENT_USER_AGENT.to_string());
         let client = reqwest::Client::builder()
-            .timeout(std::time::Duration::from_secs(6))
+            .timeout(std::time::Duration::from_secs(10))
             .build()
             .unwrap_or_default();
         Self { client, user_agent: ua }
@@ -35,16 +35,23 @@ impl FastPathClient {
         headers.insert(USER_AGENT, HeaderValue::from_str(&self.user_agent).unwrap());
         headers.insert(
             ACCEPT,
-            HeaderValue::from_static("text/markdown, text/plain;q=0.9, text/html;q=0.5"),
+            HeaderValue::from_static("text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8,text/markdown;q=0.5"),
         );
         headers.insert(
-            "Sec-Purpose",
-            HeaderValue::from_static("ai-agent-reading"),
+            reqwest::header::ACCEPT_LANGUAGE,
+            HeaderValue::from_static("en-US,en;q=0.9"),
         );
         headers.insert(
-            "X-Agent-Protocol",
-            HeaderValue::from_static("MCP/1.0"),
+            "Sec-Ch-Ua",
+            HeaderValue::from_static("\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\""),
         );
+        headers.insert("Sec-Ch-Ua-Mobile", HeaderValue::from_static("?0"));
+        headers.insert("Sec-Ch-Ua-Platform", HeaderValue::from_static("\"Windows\""));
+        headers.insert("Sec-Fetch-Dest", HeaderValue::from_static("document"));
+        headers.insert("Sec-Fetch-Mode", HeaderValue::from_static("navigate"));
+        headers.insert("Sec-Fetch-Site", HeaderValue::from_static("none"));
+        headers.insert("Sec-Fetch-User", HeaderValue::from_static("?1"));
+        headers.insert("Upgrade-Insecure-Requests", HeaderValue::from_static("1"));
         headers.insert(CONNECTION, HeaderValue::from_static("keep-alive"));
         headers
     }
@@ -115,12 +122,8 @@ impl FastPathClient {
         Ok(None)
     }
 
-    /// Fetches page content (either negotiated markdown, /llms.txt, or HTML fallback)
+    /// Fetches page content (either negotiated markdown or HTML fallback)
     pub async fn fetch_page_content(&self, target_url: &str) -> anyhow::Result<(String, u16)> {
-        if let Some((llms, _, status)) = self.probe_llms_txt_timed(target_url).await {
-            return Ok((llms, status));
-        }
-
         if let Ok(Some((md, _, status))) = self.fetch_negotiated_timed(target_url).await {
             return Ok((md, status));
         }
@@ -140,16 +143,114 @@ impl FastPathClient {
         let sanitized = crate::sanitizer::sanitize_web_text(&text, &domain);
         Ok((sanitized.content, status))
     }
+
+    /// Performs a native web search and parses top organic results
+    pub async fn search_web_results(&self, query: &str) -> anyhow::Result<Vec<SearchResult>> {
+        let mut form_data = std::collections::HashMap::new();
+        form_data.insert("q", query);
+
+        let resp = self
+            .client
+            .post("https://lite.duckduckgo.com/lite/")
+            .header(reqwest::header::USER_AGENT, &self.user_agent)
+            .header(reqwest::header::ACCEPT_ENCODING, "identity")
+            .header(reqwest::header::CONNECTION, "close")
+            .version(reqwest::Version::HTTP_11)
+            .form(&form_data)
+            .send()
+            .await?;
+        let status = resp.status().as_u16();
+        if status != 200 {
+            anyhow::bail!("Search request failed with HTTP {}", status);
+        }
+        let html = resp.text().await?;
+
+        let mut results = Vec::new();
+        let re_link = regex::Regex::new(r#"<a\s+[^>]*href=["']([^"']+)["'][^>]*>(.*?)</a>"#)?;
+        let mut rank = 1;
+        for cap in re_link.captures_iter(&html) {
+            let href = cap.get(1).map(|m| m.as_str()).unwrap_or("");
+            let text = cap.get(2).map(|m| m.as_str()).unwrap_or("");
+            if href.starts_with("http") && !href.contains("duckduckgo.com") && !text.trim().is_empty() {
+                let clean_title = regex::Regex::new(r"<[^>]+>")?.replace_all(text, "").trim().to_string();
+                if clean_title.len() > 3 {
+                    results.push(SearchResult {
+                        rank,
+                        title: clean_title,
+                        url: href.to_string(),
+                        snippet: String::new(),
+                    });
+                    rank += 1;
+                    if results.len() >= 10 {
+                        break;
+                    }
+                }
+            }
+        }
+        Ok(results)
+    }
+
+    /// Full multi-tab human browsing emulation: Search -> Tab open -> Content check -> Back
+    pub async fn research_workflow(&self, query: &str, limit: usize) -> anyhow::Result<Vec<ResearchedPage>> {
+        let results = self.search_web_results(query).await?;
+        let mut pages = Vec::new();
+        for item in results.into_iter().take(limit) {
+            match self.fetch_page_content(&item.url).await {
+                Ok((content, status)) => {
+                    let preview = if content.len() > 1500 {
+                        content[..1500].to_string()
+                    } else {
+                        content
+                    };
+                    pages.push(ResearchedPage {
+                        rank: item.rank,
+                        title: item.title,
+                        url: item.url,
+                        status,
+                        content_preview: preview,
+                        is_blocked: false,
+                    });
+                }
+                Err(_) => {
+                    pages.push(ResearchedPage {
+                        rank: item.rank,
+                        title: item.title,
+                        url: item.url,
+                        status: 403,
+                        content_preview: "Encountered WAF / Challenge (Headed detach recommended)".to_string(),
+                        is_blocked: true,
+                    });
+                }
+            }
+        }
+        Ok(pages)
+    }
 }
 
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct SearchResult {
+    pub rank: usize,
+    pub title: String,
+    pub url: String,
+    pub snippet: String,
+}
 
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct ResearchedPage {
+    pub rank: usize,
+    pub title: String,
+    pub url: String,
+    pub status: u16,
+    pub content_preview: String,
+    pub is_blocked: bool,
+}
 
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
-    fn test_client_headers_contain_agent_protocols() {
+    fn test_client_headers_contain_browser_profile() {
         let client = FastPathClient::new(None);
         let headers = client.build_headers();
 
@@ -157,18 +258,7 @@ mod tests {
             headers.get(USER_AGENT).unwrap().to_str().unwrap(),
             DEFAULT_AGENT_USER_AGENT
         );
-        assert_eq!(
-            headers.get(ACCEPT).unwrap().to_str().unwrap(),
-            "text/markdown, text/plain;q=0.9, text/html;q=0.5"
-        );
-        assert_eq!(
-            headers.get("Sec-Purpose").unwrap().to_str().unwrap(),
-            "ai-agent-reading"
-        );
-        assert_eq!(
-            headers.get("X-Agent-Protocol").unwrap().to_str().unwrap(),
-            "MCP/1.0"
-        );
+        assert!(headers.get(ACCEPT).unwrap().to_str().unwrap().contains("text/html"));
         assert_eq!(
             headers.get(CONNECTION).unwrap().to_str().unwrap(),
             "keep-alive"
@@ -196,3 +286,4 @@ mod tests {
         assert_eq!(llms_url, "https://docs.anthropic.com/llms.txt");
     }
 }
+

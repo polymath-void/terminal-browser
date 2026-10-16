@@ -6,8 +6,11 @@ authors.workspace = true
 
 [dependencies]
 term-core = { path = "../term-core" }
+term-storage = { path = "../term-storage" }
+term-engine = { path = "../term-engine" }
 tokio.workspace = true
 tokio-util = { version = "0.7", features = ["codec"] }
+futures = "0.3"
 bytes = "1.6"
 serde.workspace = true
 serde_json.workspace = true
