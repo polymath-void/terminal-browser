@@ -206,6 +206,24 @@ impl FastPathClient {
         Ok((sanitized.content, status, cookies))
     }
 
+    /// Submits form data via POST and returns raw response body with captured cookies
+    pub async fn post_form_raw(
+        &self,
+        target_url: &str,
+        form_data: &[(&str, &str)],
+    ) -> anyhow::Result<(String, u16, Vec<StoredCookie>)> {
+        let form_vec = form_data
+            .iter()
+            .map(|(k, v)| (k.to_string(), v.to_string()))
+            .collect();
+        let (resp, _, cookies) = self
+            .execute_with_redirects(reqwest::Method::POST, target_url, Some(form_vec), 10)
+            .await?;
+        let status = resp.status().as_u16();
+        let text = resp.text().await?;
+        Ok((text, status, cookies))
+    }
+
     /// Probes for domain-level `/llms.txt` summary file
     pub async fn probe_llms_txt(&self, target_url: &str) -> Option<String> {
         self.probe_llms_txt_timed(target_url).await.map(|(text, _, _)| text)

@@ -346,6 +346,13 @@ impl HtmlRenderer {
             }
         }
 
+        // Extract <form action="..."> if present
+        if let Some(form_idx) = processed_html.find("<form") {
+            if let Some(action) = extract_attr(&processed_html[form_idx..], "action") {
+                focus_ring.form_action = Some(action);
+            }
+        }
+
         // Render main body content lines preserving visual elements
         let lines: Vec<&str> = processed_html.lines().collect();
         for raw_line in lines {
@@ -491,6 +498,7 @@ impl HtmlRenderer {
 
                     // Register into FocusRing
                     let mut widget = TextInputWidget::new(input_ref, input_ref, placeholder);
+                    widget.name = name;
                     widget.value = value;
                     focus_ring.register_field(widget);
                 }

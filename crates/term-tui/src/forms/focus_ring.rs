@@ -6,6 +6,7 @@ pub struct FocusRing {
     pub active_index: Option<usize>,
     pub fields: Vec<u32>, // ref_ids of form fields in document order
     pub widgets: HashMap<u32, TextInputWidget>,
+    pub form_action: Option<String>,
 }
 
 impl FocusRing {
@@ -25,6 +26,7 @@ impl FocusRing {
         self.active_index = None;
         self.fields.clear();
         self.widgets.clear();
+        self.form_action = None;
     }
 
     pub fn focus_next(&mut self) -> Option<u32> {

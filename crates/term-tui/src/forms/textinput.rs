@@ -9,6 +9,7 @@ pub enum FormAction {
 pub struct TextInputWidget {
     pub ref_id: u32,
     pub backend_node_id: u32,
+    pub name: String,
     pub value: String,
     pub cursor_pos: usize,
     pub is_focused: bool,
@@ -21,6 +22,7 @@ impl TextInputWidget {
         Self {
             ref_id,
             backend_node_id,
+            name: format!("field_{}", ref_id),
             value: String::new(),
             cursor_pos: 0,
             is_focused: false,

@@ -37,6 +37,10 @@ struct Cli {
     #[arg(long, short = 'p')]
     pass: Option<String>,
 
+    /// Email for signup/registration form submission
+    #[arg(long, short = 'e')]
+    email: Option<String>,
+
     /// File path to upload
     #[arg(long)]
     file: Option<String>,
@@ -104,6 +108,49 @@ async fn main() -> anyhow::Result<()> {
                 }
             }
         }
+        "signup" | "register" => {
+            let target_url = second.unwrap_or("http://127.0.0.1:8088/signup");
+            let username = cli.user.as_deref().unwrap_or("polymath_agent");
+            let password = cli.pass.as_deref().unwrap_or("MasterPass2026!");
+            let email = cli.email.as_deref().unwrap_or("agent@polymath.ai");
+            let norm_url = normalize_url(target_url);
+
+            println!("📝 Submitting user registration to: {}", norm_url);
+            println!("👤 Username: {}", username);
+            println!("📧 Email:    {}", email);
+
+            let client = FastPathClient::new(None);
+            let form_data = [
+                ("username", username),
+                ("password", password),
+                ("email", email),
+                ("name", username),
+            ];
+
+            let start = std::time::Instant::now();
+            match client.post_form_raw(&norm_url, &form_data).await {
+                Ok((content, status, cookies)) => {
+                    let elapsed = start.elapsed();
+                    println!("✅ Registration complete in {:.2?} (HTTP {})", elapsed, status);
+                    println!("🍪 Captured & Stored {} Session Cookie(s) in SQLite Vault:", cookies.len());
+                    for c in &cookies {
+                        println!("   • {} = {} (Domain: {}, Path: {}, HttpOnly: {})",
+                            c.name, c.value, c.domain, c.path, c.is_httponly);
+                    }
+                    println!("\n--- Server Response Preview ---\n");
+                    let mut links = std::collections::HashMap::new();
+                    let mut focus = term_tui::FocusRing::new();
+                    let (nodes, _) = term_tui::HtmlRenderer::render_html(&content, &mut links, &mut focus, 80);
+                    for node in nodes.iter().take(20) {
+                        let line_str: String = node.content.spans.iter().map(|s| s.content.as_ref()).collect();
+                        println!("{}", line_str);
+                    }
+                }
+                Err(e) => {
+                    eprintln!("❌ Registration failed: {}", e);
+                }
+            }
+        }
         "login" => {
             let target_url = second.unwrap_or("https://the-internet.herokuapp.com/authenticate");
             let username = cli.user.as_deref().unwrap_or("tomsmith");
@@ -117,7 +164,7 @@ async fn main() -> anyhow::Result<()> {
             let form_data = [("username", username), ("password", password)];
 
             let start = std::time::Instant::now();
-            match client.post_form(&norm_url, &form_data).await {
+            match client.post_form_raw(&norm_url, &form_data).await {
                 Ok((content, status, cookies)) => {
                     let elapsed = start.elapsed();
                     println!("✅ Login complete in {:.2?} (HTTP {})", elapsed, status);
@@ -127,8 +174,13 @@ async fn main() -> anyhow::Result<()> {
                             c.name, c.value, c.domain, c.is_secure, c.is_httponly);
                     }
                     println!("\n--- Authenticated Response Snippet ---\n");
-                    let preview: String = content.lines().take(20).collect::<Vec<_>>().join("\n");
-                    println!("{}", preview);
+                    let mut links = std::collections::HashMap::new();
+                    let mut focus = term_tui::FocusRing::new();
+                    let (nodes, _) = term_tui::HtmlRenderer::render_html(&content, &mut links, &mut focus, 80);
+                    for node in nodes.iter().take(20) {
+                        let line_str: String = node.content.spans.iter().map(|s| s.content.as_ref()).collect();
+                        println!("{}", line_str);
+                    }
                 }
                 Err(e) => {
                     eprintln!("❌ Login failed: {}", e);

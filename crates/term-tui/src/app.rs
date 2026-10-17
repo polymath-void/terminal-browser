@@ -34,6 +34,7 @@ pub enum InputMode {
     InPageSearch,
     VimiumHints,
     HelpModal,
+    FormInput,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -669,7 +670,7 @@ impl TuiApp {
 
     pub fn render(&self, frame: &mut Frame) {
         let bottom_height = match self.input_mode {
-            InputMode::UrlBar | InputMode::InPageSearch => 2,
+            InputMode::UrlBar | InputMode::InPageSearch | InputMode::FormInput => 2,
             _ => 1,
         };
 
@@ -746,14 +747,29 @@ impl TuiApp {
                     .style(Style::default().fg(Color::Yellow).bg(Color::Black).add_modifier(Modifier::BOLD));
                 frame.render_widget(p, chunks[2]);
             }
+            InputMode::FormInput => {
+                let focused_desc = if let Some(w) = self.current_tab().focus_ring.current_focused_widget() {
+                    let disp = if w.value.is_empty() {
+                        w.placeholder.as_deref().unwrap_or("...")
+                    } else {
+                        &w.value
+                    };
+                    format!("Field '{}' [#{}] ➔ \"{}█\"  (Tab: Next | Enter: Submit | Esc: Exit)", w.name, w.ref_id, disp)
+                } else {
+                    "No field active (Press Tab to focus next)".to_string()
+                };
+                let p = Paragraph::new(format!("📝 Form Mode: {}", focused_desc))
+                    .style(Style::default().fg(Color::Cyan).bg(Color::Rgb(20, 30, 45)).add_modifier(Modifier::BOLD));
+                frame.render_widget(p, chunks[2]);
+            }
             InputMode::HelpModal => {
-                let p = Paragraph::new("❓ Cheatsheet: [/] Go/Search [f] Hints [b/B] Back/Fwd [t/w] New/Close Tab [Tab] Next Tab [?] Find [n/N] Next/Prev [R] Reader [m/M] Bookmarks [q] Quit")
+                let p = Paragraph::new("❓ Cheatsheet: [/] Go/Search [i] Form Mode [f] Hints [b/B] Back/Fwd [t/w] New/Close Tab [Tab] Next Tab [?] Find [n/N] Next/Prev [R] Reader [m/M] Bookmarks [q] Quit")
                     .style(Style::default().fg(Color::Cyan).bg(Color::DarkGray).add_modifier(Modifier::BOLD));
                 frame.render_widget(p, chunks[2]);
             }
             InputMode::Normal => {
                 let status = Paragraph::new(format!(
-                    " [/] Go/Search | [f] Links | [b] Back | [t] Tab | [?] Find | [R] Reader | [h] Help | {}",
+                    " [/] Go | [i] Forms | [f] Links | [b] Back | [t] Tab | [?] Find | [R] Reader | [h] Help | {}",
                     self.status_message
                 ))
                 .style(Style::default().bg(Color::DarkGray).add_modifier(Modifier::BOLD));
@@ -885,12 +901,106 @@ impl TuiApp {
                                     self.status_message = "Help closed".to_string();
                                 }
                             }
+                            InputMode::FormInput => {
+                                match key.code {
+                                    KeyCode::Esc => {
+                                        self.input_mode = InputMode::Normal;
+                                        self.status_message = "Exited Form Mode".to_string();
+                                    }
+                                    KeyCode::Tab => {
+                                        if let Some(ref_id) = self.current_tab_mut().focus_ring.focus_next() {
+                                            let name = self.current_tab().focus_ring.widgets.get(&ref_id)
+                                                .map(|w| w.name.clone()).unwrap_or_else(|| "field".to_string());
+                                            self.status_message = format!("Focused: {} (Ref #{})", name, ref_id);
+                                        }
+                                    }
+                                    KeyCode::BackTab => {
+                                        if let Some(ref_id) = self.current_tab_mut().focus_ring.focus_prev() {
+                                            let name = self.current_tab().focus_ring.widgets.get(&ref_id)
+                                                .map(|w| w.name.clone()).unwrap_or_else(|| "field".to_string());
+                                            self.status_message = format!("Focused: {} (Ref #{})", name, ref_id);
+                                        }
+                                    }
+                                    KeyCode::Enter => {
+                                        let tab = self.current_tab();
+                                        let mut form_pairs = Vec::new();
+                                        for ref_id in &tab.focus_ring.fields {
+                                            if let Some(w) = tab.focus_ring.widgets.get(ref_id) {
+                                                form_pairs.push((w.name.clone(), w.value.clone()));
+                                            }
+                                        }
+                                        let base_url = tab.url.clone();
+                                        let target = if let Some(ref action) = tab.focus_ring.form_action {
+                                            if action.starts_with("http://") || action.starts_with("https://") {
+                                                action.clone()
+                                            } else if action.starts_with('/') {
+                                                if let Ok(base) = url::Url::parse(&base_url) {
+                                                    format!("{}://{}{}", base.scheme(), base.host_str().unwrap_or(""), action)
+                                                } else {
+                                                    action.clone()
+                                                }
+                                            } else {
+                                                format!("{}/{}", base_url.trim_end_matches('/'), action)
+                                            }
+                                        } else {
+                                            base_url.clone()
+                                        };
+
+                                        self.status_message = format!("Submitting form data to {}...", target);
+                                        terminal.draw(|f| self.render(f))?;
+
+                                        let form_refs: Vec<(&str, &str)> = form_pairs.iter()
+                                            .map(|(k, v)| (k.as_str(), v.as_str()))
+                                            .collect();
+
+                                        let client = FastPathClient::new(None);
+                                        match client.post_form_raw(&target, &form_refs).await {
+                                            Ok((content, status, cookies)) => {
+                                                self.input_mode = InputMode::Normal;
+                                                let tab = self.current_tab_mut();
+                                                tab.url = target.clone();
+                                                tab.status_code = status;
+                                                if content.contains("<html") || content.contains("<body") || content.contains("<table") || content.contains("<form") {
+                                                    self.load_html_content(&target, &content);
+                                                } else {
+                                                    self.load_markdown_content(&target, &content);
+                                                }
+                                                self.status_message = format!("Form submitted (HTTP {}, {} cookie(s) captured)", status, cookies.len());
+                                            }
+                                            Err(e) => {
+                                                self.status_message = format!("Form submission error: {}", e);
+                                            }
+                                        }
+                                    }
+                                    _ => {
+                                        let tab = self.current_tab_mut();
+                                        if let Some(widget) = tab.focus_ring.current_focused_widget_mut() {
+                                            let _ = widget.handle_key(key);
+                                        }
+                                    }
+                                }
+                            }
                             InputMode::Normal => {
                                 match key.code {
                                     // Quit
                                     KeyCode::Char('q') => break,
                                     KeyCode::Esc => {
                                         self.status_message = "Press 'q' to quit".to_string();
+                                    }
+
+                                    // Form Mode (interactive form editing)
+                                    KeyCode::Char('i') | KeyCode::Char('e') => {
+                                        if !self.current_tab().focus_ring.fields.is_empty() {
+                                            if self.current_tab().focus_ring.active_index.is_none() {
+                                                self.current_tab_mut().focus_ring.set_focus(0);
+                                            }
+                                            self.input_mode = InputMode::FormInput;
+                                            let active_name = self.current_tab().focus_ring.current_focused_widget()
+                                                .map(|w| w.name.clone()).unwrap_or_else(|| "field".to_string());
+                                            self.status_message = format!("Entered Form Mode: editing '{}' (Tab: cycle, Enter: submit, Esc: exit)", active_name);
+                                        } else {
+                                            self.status_message = "No interactive form fields found on current page".to_string();
+                                        }
                                     }
 
                                     // Scrolling
