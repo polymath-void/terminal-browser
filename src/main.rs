@@ -380,8 +380,18 @@ async fn main() -> anyhow::Result<()> {
             };
             let norm_url = normalize_url(target_url);
             let client = FastPathClient::new(None);
-            let (content, _) = client.fetch_page_content(&norm_url).await?;
-            println!("{}", content);
+            let (content, _, is_html) = client.fetch_page_raw(&norm_url).await?;
+            if is_html || content.contains("<html") || content.contains("<body") || content.contains("<table") || content.contains("<div") || content.contains("<form") {
+                let mut links = std::collections::HashMap::new();
+                let mut focus = term_tui::FocusRing::new();
+                let (nodes, _) = term_tui::HtmlRenderer::render_html(&content, &mut links, &mut focus, 80);
+                for node in nodes {
+                    let line_str: String = node.content.spans.iter().map(|s| s.content.as_ref()).collect();
+                    println!("{}", line_str);
+                }
+            } else {
+                println!("{}", content);
+            }
         }
         "bookmarks" => {
             let mut app = TuiApp::new();

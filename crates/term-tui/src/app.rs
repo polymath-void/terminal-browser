@@ -1,3 +1,5 @@
+use crate::forms::FocusRing;
+use crate::html_renderer::HtmlRenderer;
 use crate::viewport::{RenderNode, VirtualViewport};
 use crossterm::{
     cursor::{Hide, Show},
@@ -41,6 +43,7 @@ pub struct BrowserTab {
     pub status_code: u16,
     pub viewport: VirtualViewport,
     pub link_targets: HashMap<u32, String>,
+    pub focus_ring: FocusRing,
     pub history_back: Vec<String>,
     pub history_forward: Vec<String>,
     pub raw_content: String,
@@ -55,6 +58,7 @@ impl Default for BrowserTab {
             status_code: 200,
             viewport: VirtualViewport::new(),
             link_targets: HashMap::new(),
+            focus_ring: FocusRing::new(),
             history_back: Vec::new(),
             history_forward: Vec::new(),
             raw_content: String::new(),
@@ -359,6 +363,25 @@ impl TuiApp {
         self.sync_mirrors();
     }
 
+    pub fn load_html_content(&mut self, url: &str, html: &str) {
+        let tab = self.current_tab_mut();
+        tab.url = url.to_string();
+        tab.status_code = 200;
+        tab.raw_content = html.to_string();
+        tab.is_reader_mode = false;
+
+        let (nodes, title) = HtmlRenderer::render_html(
+            html,
+            &mut tab.link_targets,
+            &mut tab.focus_ring,
+            80,
+        );
+        tab.title = title.unwrap_or_else(|| Self::url_domain(url));
+        tab.viewport.set_nodes(nodes);
+        self.status_message = format!("Loaded: {} ({} lines, {} inputs)", tab.title, tab.viewport.nodes.len(), tab.focus_ring.fields.len());
+        self.sync_mirrors();
+    }
+
     pub async fn load_url(&mut self, target_url: &str) -> anyhow::Result<()> {
         let current_tab_url = self.current_tab().url.clone();
         if !current_tab_url.is_empty() && current_tab_url != "about:home" && current_tab_url != target_url {
@@ -369,11 +392,15 @@ impl TuiApp {
 
         self.status_message = format!("Connecting to {}...", target_url);
         let client = FastPathClient::new(None);
-        match client.fetch_page_content(target_url).await {
-            Ok((content, status)) => {
+        match client.fetch_page_raw(target_url).await {
+            Ok((content, status, is_html)) => {
                 let tab = self.current_tab_mut();
                 tab.status_code = status;
-                self.load_markdown_content(target_url, &content);
+                if is_html || content.contains("<html") || content.contains("<body") || content.contains("<table") || content.contains("<form") || content.contains("<div") {
+                    self.load_html_content(target_url, &content);
+                } else {
+                    self.load_markdown_content(target_url, &content);
+                }
             }
             Err(e) => {
                 let tab = self.current_tab_mut();

@@ -266,7 +266,7 @@ impl FastPathClient {
         Ok(None)
     }
 
-    /// Fetches page content (either negotiated markdown or HTML fallback)
+    /// Fetches page content (either negotiated markdown or HTML fallback with CDP auto-elevation)
     pub async fn fetch_page_content(&self, target_url: &str) -> anyhow::Result<(String, u16)> {
         if let Ok(Some((md, _, status))) = self.fetch_negotiated_timed(target_url).await {
             return Ok((md, status));
@@ -277,12 +277,73 @@ impl FastPathClient {
             .await?;
         let status = resp.status().as_u16();
         let text = resp.text().await?;
+
+        // Check if page mandates client-side JavaScript execution (SPA or Anti-Bot challenge)
+        let resolved_text = if crate::cdp::is_js_required(&text) {
+            if crate::cdp::is_cdp_available() {
+                tracing::info!("JavaScript execution required. Elevating to Headless CDP Engine for {}", target_url);
+                if let Ok(cdp) = crate::cdp::CdpEngine::new() {
+                    if let Ok(rendered) = cdp.render_page(target_url, 15).await {
+                        rendered.html
+                    } else {
+                        text
+                    }
+                } else {
+                    text
+                }
+            } else {
+                format!(
+                    "⚠️ [Client-Side JavaScript Required]\nThis page requires JavaScript to render dynamic forms and interactive components.\n• To enable headless rendering on Termux: run `pkg install chromium`\n• Or launch in your system browser via: `tb open {}`\n\n---\n{}",
+                    target_url, text
+                )
+            }
+        } else {
+            text
+        };
+
         let domain = Url::parse(&final_url)
             .ok()
             .and_then(|u| u.host_str().map(|s| s.to_string()))
             .unwrap_or_else(|| "unknown".to_string());
-        let sanitized = crate::sanitizer::sanitize_web_text(&text, &domain);
+        let sanitized = crate::sanitizer::sanitize_web_text(&resolved_text, &domain);
         Ok((sanitized.content, status))
+    }
+
+    /// Fetches raw page content and returns (content, status, is_html) with CDP JS elevation
+    pub async fn fetch_page_raw(&self, target_url: &str) -> anyhow::Result<(String, u16, bool)> {
+        if let Ok(Some((md, _, status))) = self.fetch_negotiated_timed(target_url).await {
+            return Ok((md, status, false));
+        }
+
+        let (resp, _, _) = self
+            .execute_with_redirects(reqwest::Method::GET, target_url, None, 10)
+            .await?;
+        let status = resp.status().as_u16();
+        let text = resp.text().await?;
+
+        if crate::cdp::is_js_required(&text) {
+            if crate::cdp::is_cdp_available() {
+                tracing::info!("JavaScript execution required. Elevating to Headless CDP Engine for {}", target_url);
+                if let Ok(cdp) = crate::cdp::CdpEngine::new() {
+                    if let Ok(rendered) = cdp.render_page(target_url, 15).await {
+                        return Ok((rendered.html, 200, true));
+                    }
+                }
+            } else {
+                let alert = format!(
+                    "<div style=\"color: #ffaa00; border: 1px solid #ffaa00; padding: 10px; margin-bottom: 12px;\">
+                    ⚠️ <strong>Client-Side JavaScript Required</strong><br/>
+                    This page requires JavaScript execution to hydrate interactive forms and components.<br/>
+                    • <em>Android Termux:</em> Install Chromium with <code>pkg install chromium</code><br/>
+                    • <em>Interactive CAPTCHA / 2FA:</em> Launch system browser via <code>tb open {}</code>
+                    </div>\n",
+                    target_url
+                );
+                return Ok((format!("{}{}", alert, text), status, true));
+            }
+        }
+
+        Ok((text, status, true))
     }
 
     /// Performs a native web search and parses top organic results

@@ -2303,6 +2303,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "chromiumoxide",
+ "futures",
  "regex",
  "reqwest",
  "serde",
@@ -2366,6 +2367,7 @@ dependencies = [
  "anyhow",
  "crossterm",
  "ratatui",
+ "regex",
  "term-core",
  "term-engine",
  "term-storage",
